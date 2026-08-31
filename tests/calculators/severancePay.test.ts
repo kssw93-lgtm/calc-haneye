@@ -67,6 +67,19 @@ describe("calculateSeverancePay", () => {
     expect(result.estimatedSeverancePay).toBeGreaterThan(0);
   });
 
+  it("입사일이 31일이고 짧은 달을 지나는 경우에도 재직기간의 일수가 음수가 되지 않는다", () => {
+    const result = calculateSeverancePay({
+      hireDate: date("2020-01-31"),
+      resignationDate: date("2020-03-01"),
+      threeMonthWages: 9_000_000,
+      threeMonthDays: 92,
+    });
+
+    expect(result.duration.years).toBeGreaterThanOrEqual(0);
+    expect(result.duration.months).toBeGreaterThanOrEqual(0);
+    expect(result.duration.days).toBeGreaterThanOrEqual(0);
+  });
+
   it("0원 임금은 오류를 던진다", () => {
     expect(() =>
       calculateSeverancePay({

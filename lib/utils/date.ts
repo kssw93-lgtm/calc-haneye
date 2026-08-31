@@ -31,10 +31,6 @@ export function inclusiveDaysBetween(start: Date, end: Date): number {
   return diff + 1;
 }
 
-function daysInMonth(year: number, monthIndex: number): number {
-  return new Date(Date.UTC(year, monthIndex + 1, 0)).getUTCDate();
-}
-
 export interface CalendarDuration {
   years: number;
   months: number;
@@ -43,27 +39,39 @@ export interface CalendarDuration {
 
 /**
  * 두 날짜 사이의 기간을 "N년 N개월 N일" 형태로 계산합니다(달력 기준 차이).
+ *
+ * 월별 일수가 달라(28~31일) 시작일이 29~31일인 경우 단순 필드 뺄셈은 음수
+ * 일수를 만들어낼 수 있어(예: 2020-01-31 → 2020-03-01), 개월 수를 하나씩
+ * 줄여가며 "시작일 + N개월"이 종료일을 넘지 않는 지점을 찾은 뒤 남은 일수를
+ * 실제 날짜 차이로 계산합니다.
  */
 export function calendarDuration(start: Date, end: Date): CalendarDuration {
-  let years = end.getUTCFullYear() - start.getUTCFullYear();
-  let months = end.getUTCMonth() - start.getUTCMonth();
-  let days = end.getUTCDate() - start.getUTCDate();
+  let totalMonths =
+    (end.getUTCFullYear() - start.getUTCFullYear()) * 12 +
+    (end.getUTCMonth() - start.getUTCMonth());
 
-  if (days < 0) {
-    months -= 1;
-    const prevMonthDate = new Date(
-      Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), 0)
-    );
-    days += daysInMonth(
-      prevMonthDate.getUTCFullYear(),
-      prevMonthDate.getUTCMonth()
+  let anchor = new Date(
+    Date.UTC(
+      start.getUTCFullYear(),
+      start.getUTCMonth() + totalMonths,
+      start.getUTCDate()
+    )
+  );
+
+  while (anchor.getTime() > end.getTime()) {
+    totalMonths -= 1;
+    anchor = new Date(
+      Date.UTC(
+        start.getUTCFullYear(),
+        start.getUTCMonth() + totalMonths,
+        start.getUTCDate()
+      )
     );
   }
 
-  if (months < 0) {
-    years -= 1;
-    months += 12;
-  }
+  const days = Math.round((end.getTime() - anchor.getTime()) / MS_PER_DAY);
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths - years * 12;
 
   return { years, months, days };
 }

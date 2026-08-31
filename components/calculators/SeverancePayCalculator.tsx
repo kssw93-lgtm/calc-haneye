@@ -49,6 +49,7 @@ export function SeverancePayCalculator() {
     control,
     reset,
     watch,
+    getValues,
     formState: { errors },
   } = useForm<SeverancePayFormValues>({
     resolver: zodResolver(severancePayFormSchema),
@@ -58,12 +59,18 @@ export function SeverancePayCalculator() {
   const [result, setResult] = useState<SeverancePayResult | null>(null);
   const [calculatedValues, setCalculatedValues] =
     useState<SeverancePayFormValues | null>(null);
+  // 계산 시점의 "원본" 입력값 스냅샷(watch()와 동일한 타입 형태)입니다.
+  // zod가 검증 과정에서 threeMonthDays 등을 문자열에서 숫자로 변환하므로,
+  // onSubmit의 data를 그대로 watch() 결과와 비교하면 값이 같아도 타입이
+  // 달라 항상 "변경됨"으로 오판되는 문제가 있어, 비교 전용 스냅샷을 둡니다.
+  const [calculatedSnapshot, setCalculatedSnapshot] =
+    useState<SeverancePayFormValues | null>(null);
 
   const currentValues = watch();
   const isStale =
     result !== null &&
-    calculatedValues !== null &&
-    JSON.stringify(currentValues) !== JSON.stringify(calculatedValues);
+    calculatedSnapshot !== null &&
+    JSON.stringify(currentValues) !== JSON.stringify(calculatedSnapshot);
 
   function onSubmit(data: SeverancePayFormValues) {
     const hireDate = parseDateOnly(data.hireDate);
@@ -81,12 +88,14 @@ export function SeverancePayCalculator() {
     });
     setResult(calcResult);
     setCalculatedValues(data);
+    setCalculatedSnapshot(getValues());
   }
 
   function handleReset() {
     reset(DEFAULT_VALUES);
     setResult(null);
     setCalculatedValues(null);
+    setCalculatedSnapshot(null);
   }
 
   function buildCopyText(): string {

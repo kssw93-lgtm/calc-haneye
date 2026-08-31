@@ -51,6 +51,7 @@ export function LoanInterestCalculator() {
     control,
     reset,
     watch,
+    getValues,
     formState: { errors },
   } = useForm<LoanInterestFormValues>({
     resolver: zodResolver(loanInterestFormSchema),
@@ -65,18 +66,25 @@ export function LoanInterestCalculator() {
   const [result, setResult] = useState<LoanInterestResult | null>(null);
   const [calculatedValues, setCalculatedValues] =
     useState<LoanInterestFormValues | null>(null);
+  // 계산 시점의 "원본" 입력값 스냅샷(watch()와 동일한 타입 형태)입니다.
+  // zod가 검증 과정에서 문자열을 숫자로 변환하므로, onSubmit의 data를 그대로
+  // watch() 결과와 비교하면 값이 같아도 타입이 달라 항상 "변경됨"으로
+  // 오판되는 문제가 있어, 비교 전용으로 별도 스냅샷을 보관합니다.
+  const [calculatedSnapshot, setCalculatedSnapshot] =
+    useState<LoanInterestFormValues | null>(null);
   const [showFullSchedule, setShowFullSchedule] = useState(false);
 
   const currentValues = watch();
   const isStale =
     result !== null &&
-    calculatedValues !== null &&
-    JSON.stringify(currentValues) !== JSON.stringify(calculatedValues);
+    calculatedSnapshot !== null &&
+    JSON.stringify(currentValues) !== JSON.stringify(calculatedSnapshot);
 
   function onSubmit(data: LoanInterestFormValues) {
     const calcResult = calculateLoanInterest(data);
     setResult(calcResult);
     setCalculatedValues(data);
+    setCalculatedSnapshot(getValues());
     setShowFullSchedule(false);
   }
 
@@ -89,6 +97,7 @@ export function LoanInterestCalculator() {
     });
     setResult(null);
     setCalculatedValues(null);
+    setCalculatedSnapshot(null);
     setShowFullSchedule(false);
   }
 

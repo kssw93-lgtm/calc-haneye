@@ -74,7 +74,6 @@ function calculateEqualPayment(
 
   const rows: LoanScheduleRow[] = [];
   let remaining = principal;
-  let totalPaymentRaw = 0;
   let totalInterestRaw = 0;
   let totalPrincipalRaw = 0;
 
@@ -91,18 +90,20 @@ function calculateEqualPayment(
     remaining -= principalPortion;
     if (month === termMonths) remaining = 0;
 
-    totalPaymentRaw += payment;
     totalInterestRaw += interest;
     totalPrincipalRaw += principalPortion;
 
     rows.push(buildRow(month, payment, principalPortion, interest, remaining));
   }
 
+  const totalInterest = Math.round(totalInterestRaw);
+  const totalPrincipal = Math.round(totalPrincipalRaw);
+
   return {
     rows,
-    totalPayment: Math.round(totalPaymentRaw),
-    totalInterest: Math.round(totalInterestRaw),
-    totalPrincipal: Math.round(totalPrincipalRaw),
+    totalPayment: totalInterest + totalPrincipal,
+    totalInterest,
+    totalPrincipal,
   };
 }
 
@@ -115,7 +116,6 @@ function calculateEqualPrincipal(
 
   const rows: LoanScheduleRow[] = [];
   let remaining = principal;
-  let totalPaymentRaw = 0;
   let totalInterestRaw = 0;
   let totalPrincipalRaw = 0;
 
@@ -131,18 +131,20 @@ function calculateEqualPrincipal(
     remaining -= principalPortion;
     if (month === termMonths) remaining = 0;
 
-    totalPaymentRaw += payment;
     totalInterestRaw += interest;
     totalPrincipalRaw += principalPortion;
 
     rows.push(buildRow(month, payment, principalPortion, interest, remaining));
   }
 
+  const totalInterest = Math.round(totalInterestRaw);
+  const totalPrincipal = Math.round(totalPrincipalRaw);
+
   return {
     rows,
-    totalPayment: Math.round(totalPaymentRaw),
-    totalInterest: Math.round(totalInterestRaw),
-    totalPrincipal: Math.round(totalPrincipalRaw),
+    totalPayment: totalInterest + totalPrincipal,
+    totalInterest,
+    totalPrincipal,
   };
 }
 
@@ -152,7 +154,6 @@ function calculateBulletPayment(
   termMonths: number
 ): { rows: LoanScheduleRow[]; totalPayment: number; totalInterest: number; totalPrincipal: number } {
   const rows: LoanScheduleRow[] = [];
-  let totalPaymentRaw = 0;
   let totalInterestRaw = 0;
 
   for (let month = 1; month <= termMonths; month += 1) {
@@ -162,17 +163,19 @@ function calculateBulletPayment(
     const payment = isLastMonth ? principal + interest : interest;
     const remaining = isLastMonth ? 0 : principal;
 
-    totalPaymentRaw += payment;
     totalInterestRaw += interest;
 
     rows.push(buildRow(month, payment, principalPortion, interest, remaining));
   }
 
+  const totalInterest = Math.round(totalInterestRaw);
+  const totalPrincipal = Math.round(principal);
+
   return {
     rows,
-    totalPayment: Math.round(totalPaymentRaw),
-    totalInterest: Math.round(totalInterestRaw),
-    totalPrincipal: Math.round(principal),
+    totalPayment: totalInterest + totalPrincipal,
+    totalInterest,
+    totalPrincipal,
   };
 }
 
