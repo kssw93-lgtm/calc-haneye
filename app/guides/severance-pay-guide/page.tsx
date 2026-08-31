@@ -22,6 +22,34 @@ const sections = [
   { id: "average-wage", label: "3. 평균임금" },
   { id: "bonus", label: "4. 상여금 및 연차수당" },
   { id: "exceptions", label: "5. 휴직·결근·퇴직연금 등 예외 조건" },
+  { id: "average-vs-ordinary", label: "평균임금과 통상임금의 차이" },
+  { id: "pension-types", label: "퇴직연금 DB형·DC형 비교" },
+  { id: "severance-tax", label: "퇴직소득세는 별도입니다" },
+  { id: "checklist", label: "퇴직 전 체크리스트" },
+];
+
+const pensionRows = [
+  {
+    type: "DB형(확정급여형)",
+    who: "회사",
+    amount: "퇴직 시점 평균임금 × 근속연수 기준으로 사전에 정해진 금액",
+    fit: "안정적이고 예측 가능한 퇴직급여를 원하는 경우",
+  },
+  {
+    type: "DC형(확정기여형)",
+    who: "근로자 본인",
+    amount: "매년 적립된 부담금과 운용 성과에 따라 달라짐(확정되어 있지 않음)",
+    fit: "적극적인 운용으로 더 높은 수익을 기대하는 경우",
+  },
+];
+
+const checklist = [
+  "입사일·퇴사일이 근로계약서·4대보험 가입 이력과 일치하는지",
+  "퇴직 전 3개월 임금에 반영해야 할 수당이 빠짐없이 포함됐는지",
+  "상여금·미사용 연차수당을 반영할지 여부와 그 기준을 알고 있는지",
+  "휴직·결근 등으로 평균임금 산정 기간 조정이 필요한지",
+  "퇴직연금(DB·DC) 가입 여부와 해당 제도의 실제 산정 방식",
+  "퇴직소득세 등 실수령액에 영향을 주는 항목을 확인했는지",
 ];
 
 const faqs = [
@@ -44,6 +72,11 @@ const faqs = [
     question: "퇴직연금 가입자도 이 계산기를 참고할 수 있나요?",
     answer:
       "퇴직연금(DB형·DC형) 가입자는 실제 수령액 산정 방식이 이 계산기의 단순 계산식과 다를 수 있습니다. 참고용으로만 활용하고, 정확한 금액은 가입한 퇴직연금 제도와 운용사를 통해 확인하세요.",
+  },
+  {
+    question: "퇴직금을 받으면 세금은 얼마나 떼이나요?",
+    answer:
+      "퇴직금에는 근로소득세가 아닌 퇴직소득세가 별도로 적용되며, 근속연수·금액에 따라 세액이 달라지는 국세 영역입니다. 이 계산기는 세전 예상 퇴직금만 계산하며 세금은 포함하지 않으므로, 정확한 세액은 국세청 홈택스 또는 세무 전문가를 통해 확인하세요.",
   },
 ];
 
@@ -124,6 +157,90 @@ export default function SeverancePayGuidePage() {
             반영하지 않습니다. 해당 사항이 있다면 별도로 확인이
             필요합니다.
           </p>
+        </section>
+
+        <section id="average-vs-ordinary">
+          <h2 className="text-lg font-bold text-ink">
+            평균임금과 통상임금의 차이
+          </h2>
+          <p className="mt-2">
+            통상임금은 근로계약에서 정기적·일률적으로 지급하기로 정한
+            기본급성 임금(연장·야간·휴일수당 산정 등의 기준)이고, 평균임금은
+            실제로 지급된 임금 총액을 기준 기간의 일수로 나눈 값(퇴직금
+            산정 기준)입니다. 두 값이 항상 같지는 않으며, 상여금·수당 구성에
+            따라 차이가 날 수 있습니다. 이 계산기는 사용자가 입력한 값을
+            평균임금 산정용 임금으로 다룹니다.
+          </p>
+        </section>
+
+        <section id="pension-types">
+          <h2 className="text-lg font-bold text-ink">
+            퇴직연금 DB형·DC형 비교
+          </h2>
+          <p className="mt-2">
+            퇴직연금에 가입되어 있다면 제도 유형에 따라 실제 수령액 산정
+            방식이 이 계산기의 단순 계산식과 다를 수 있습니다.
+          </p>
+          <div className="mt-4 overflow-x-auto rounded-lg border border-hairline">
+            <table className="w-full min-w-[560px] text-left text-sm">
+              <caption className="sr-only">
+                퇴직연금 DB형과 DC형의 운용 주체, 수령액 결정 방식, 적합한 경우 비교
+              </caption>
+              <thead className="bg-surface-subtle text-xs text-ink-muted">
+                <tr>
+                  <th scope="col" className="px-3 py-2 font-medium">
+                    유형
+                  </th>
+                  <th scope="col" className="px-3 py-2 font-medium">
+                    운용 주체
+                  </th>
+                  <th scope="col" className="px-3 py-2 font-medium">
+                    수령액 결정 방식
+                  </th>
+                  <th scope="col" className="px-3 py-2 font-medium">
+                    적합한 경우
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-hairline">
+                {pensionRows.map((row) => (
+                  <tr key={row.type}>
+                    <td className="px-3 py-2 font-medium text-ink">
+                      {row.type}
+                    </td>
+                    <td className="px-3 py-2">{row.who}</td>
+                    <td className="px-3 py-2">{row.amount}</td>
+                    <td className="px-3 py-2">{row.fit}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-2 text-xs text-ink-muted">
+            정확한 수령액과 세부 조건은 가입한 퇴직연금 사업자(은행·증권사·보험사)를
+            통해 확인하세요.
+          </p>
+        </section>
+
+        <section id="severance-tax">
+          <h2 className="text-lg font-bold text-ink">
+            퇴직소득세는 별도입니다
+          </h2>
+          <p className="mt-2">
+            퇴직금을 실제로 받을 때는 근속연수와 금액에 따라 계산되는
+            퇴직소득세가 원천징수됩니다. 이 계산기는 세전 예상 퇴직금만
+            계산하며 세금은 포함하지 않습니다. 정확한 세액은 국세청
+            홈택스 또는 세무 전문가를 통해 확인하세요.
+          </p>
+        </section>
+
+        <section id="checklist">
+          <h2 className="text-lg font-bold text-ink">퇴직 전 체크리스트</h2>
+          <ul className="mt-2 list-disc space-y-1.5 pl-5">
+            {checklist.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
         </section>
       </div>
 

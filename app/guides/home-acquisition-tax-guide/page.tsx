@@ -24,6 +24,30 @@ const sections = [
   { id: "property-type", label: "5. 주택 종류와 공동취득 여부" },
   { id: "bands", label: "6억/9억 구간의 기본세율 구조" },
   { id: "other-taxes", label: "지방교육세·농어촌특별세 등 별도 요소" },
+  { id: "multi-home", label: "다주택자 중과세율 개요(참고용)" },
+  { id: "deadline", label: "신고·납부 기한" },
+  { id: "checklist", label: "취득세 신고 전 체크리스트" },
+];
+
+const baseRateRows = [
+  { range: "6억 원 이하", rate: "1%" },
+  { range: "6억 원 초과 ~ 9억 원 이하", rate: "구간세율(약 1~3%, 취득가액에 비례해 계산)" },
+  { range: "9억 원 초과", rate: "3%" },
+];
+
+const multiHomeRows = [
+  { count: "2주택", adjusted: "8%", nonAdjusted: "기본세율(1~3%)" },
+  { count: "3주택", adjusted: "12%", nonAdjusted: "8%" },
+  { count: "4주택 이상", adjusted: "12%", nonAdjusted: "12%" },
+  { count: "법인", adjusted: "12%", nonAdjusted: "12%" },
+];
+
+const checklist = [
+  "취득가액(과세표준)이 실제 계약서상 거래가액과 일치하는지",
+  "개인·유상취득·1주택·감면 미적용 조건에 해당하는지, 아니면 별도 확인이 필요한 조건인지",
+  "지방교육세·농어촌특별세 등 부가세목까지 포함한 총 납부세액을 위택스에서 확인했는지",
+  "취득일로부터 신고·납부 기한(원칙 60일, 상속은 6개월) 내에 처리할 수 있는지",
+  "다주택·법인·조정대상지역 등 중과 요건에 해당하지 않는지",
 ];
 
 const faqs = [
@@ -46,6 +70,11 @@ const faqs = [
     question: "오피스텔이나 상가도 이 계산기로 계산할 수 있나요?",
     answer:
       "계산할 수 없습니다. 이 계산기는 주택 취득만을 대상으로 하며, 오피스텔·토지·상가 등은 세율 체계가 달라 1차 지원 범위 밖으로 안내됩니다.",
+  },
+  {
+    question: "취득세는 언제까지 신고·납부해야 하나요?",
+    answer:
+      "매매·증여 등 유상·무상 취득은 원칙적으로 취득일로부터 60일 이내, 상속은 사망일이 속한 달의 말일로부터 6개월 이내에 위택스 또는 관할 지방자치단체에 신고·납부해야 합니다. 기한을 넘기면 무신고 가산세 등이 부과될 수 있으므로 정확한 기한은 위택스에서 다시 확인하세요.",
   },
 ];
 
@@ -134,8 +163,37 @@ export default function HomeAcquisitionTaxGuidePage() {
           <p className="mt-2">
             일반 1주택 유상취득 기준으로 취득가액 6억 원 이하는 1%, 9억 원
             초과는 3%가 적용되며, 그 사이 구간은 취득가액에 비례해 세율이
-            단계적으로 늘어나는 구간세율 공식이 적용됩니다.
+            단계적으로 늘어나는 구간세율 공식이 적용됩니다. 이 구간세율은
+            6억·9억 경계에서 세율이 계단식으로 급격히 뛰는 문제를 완화하기
+            위해 도입되었습니다.
           </p>
+          <div className="mt-4 overflow-x-auto rounded-lg border border-hairline">
+            <table className="w-full min-w-[420px] text-left text-sm">
+              <caption className="sr-only">
+                취득가액 구간별 일반 1주택 유상취득 기본 취득세율
+              </caption>
+              <thead className="bg-surface-subtle text-xs text-ink-muted">
+                <tr>
+                  <th scope="col" className="px-3 py-2 font-medium">
+                    취득가액 구간
+                  </th>
+                  <th scope="col" className="px-3 py-2 font-medium">
+                    기본 취득세율
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-hairline">
+                {baseRateRows.map((row) => (
+                  <tr key={row.range}>
+                    <td className="px-3 py-2 font-medium text-ink">
+                      {row.range}
+                    </td>
+                    <td className="px-3 py-2">{row.rate}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <section id="other-taxes">
@@ -144,9 +202,84 @@ export default function HomeAcquisitionTaxGuidePage() {
           </h2>
           <p className="mt-2">
             실제 납부세액에는 기본 취득세 외에 지방교육세, 농어촌특별세 등
-            부가세목이 추가로 포함될 수 있습니다. 이 계산기는 기본 취득세만
-            계산하므로, 정확한 총 납부세액은 위택스에서 확인해야 합니다.
+            부가세목이 추가로 포함될 수 있습니다. 일반적으로 지방교육세는
+            취득세액의 10% 안팎, 농어촌특별세는 전용면적·감면 여부 등 조건에
+            따라 부과 여부와 세율이 달라지는 것으로 알려져 있습니다. 이
+            계산기는 기본 취득세만 계산하므로, 부가세목까지 포함한 정확한
+            총 납부세액은 위택스에서 확인해야 합니다.
           </p>
+        </section>
+
+        <section id="multi-home">
+          <h2 className="text-lg font-bold text-ink">
+            다주택자 중과세율 개요(참고용)
+          </h2>
+          <p className="mt-2">
+            이 계산기는 1주택만 지원하지만, 참고로 다주택·법인 취득 시
+            적용될 수 있는 중과세율 구조는 아래와 같이 알려져 있습니다.
+            지역(조정대상지역 여부)과 주택 수에 따라 세율이 크게 달라지므로,
+            해당하는 경우 반드시 위택스 또는 관할 지방자치단체에서 정확한
+            세율을 확인해야 합니다.
+          </p>
+          <div className="mt-4 overflow-x-auto rounded-lg border border-hairline">
+            <table className="w-full min-w-[480px] text-left text-sm">
+              <caption className="sr-only">
+                조정대상지역·비조정대상지역별 다주택·법인 취득세 중과세율 참고표
+              </caption>
+              <thead className="bg-surface-subtle text-xs text-ink-muted">
+                <tr>
+                  <th scope="col" className="px-3 py-2 font-medium">
+                    보유 주택 수
+                  </th>
+                  <th scope="col" className="px-3 py-2 font-medium">
+                    조정대상지역
+                  </th>
+                  <th scope="col" className="px-3 py-2 font-medium">
+                    비조정대상지역
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-hairline">
+                {multiHomeRows.map((row) => (
+                  <tr key={row.count}>
+                    <td className="px-3 py-2 font-medium text-ink">
+                      {row.count}
+                    </td>
+                    <td className="px-3 py-2">{row.adjusted}</td>
+                    <td className="px-3 py-2">{row.nonAdjusted}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-2 text-xs text-ink-muted">
+            이 표는 일반적으로 알려진 구조를 요약한 참고 정보이며, 이
+            계산기의 계산 범위에는 포함되지 않습니다. 감면·특례 등에 따라
+            실제 적용 세율은 달라질 수 있습니다.
+          </p>
+        </section>
+
+        <section id="deadline">
+          <h2 className="text-lg font-bold text-ink">신고·납부 기한</h2>
+          <p className="mt-2">
+            취득세는 원칙적으로 취득일(잔금일 또는 등기일 중 빠른 날 등
+            기준일)로부터 60일 이내에 위택스 또는 관할 지방자치단체에
+            신고·납부해야 합니다. 상속으로 취득한 경우는 사망일이 속한
+            달의 말일로부터 6개월 이내로 기한이 다릅니다. 기한 내 신고하지
+            않으면 무신고 가산세, 납부하지 않으면 납부지연 가산세가 부과될
+            수 있습니다.
+          </p>
+        </section>
+
+        <section id="checklist">
+          <h2 className="text-lg font-bold text-ink">
+            취득세 신고 전 체크리스트
+          </h2>
+          <ul className="mt-2 list-disc space-y-1.5 pl-5">
+            {checklist.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
         </section>
       </div>
 
