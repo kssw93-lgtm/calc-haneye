@@ -42,11 +42,21 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-bold text-ink">3. 광고 및 분석 도구</h2>
+          <h2 className="text-lg font-bold text-ink">
+            3. 광고 및 쿠키(Cookie) 정책
+          </h2>
           <p className="mt-2">
-            현재 이 사이트는 어떠한 광고 스크립트도 사용하지 않습니다. 향후
-            애드센스 등 광고 서비스나 방문자 분석 도구를 도입할 경우, 이
-            개인정보처리방침을 사전에 갱신하여 안내할 예정입니다.
+            본 사이트는 향후 및 현재 원활한 서비스 제공과 통계 분석, 맞춤형
+            광고 게재를 위해 Google AdSense 등 제3자 광고 서비스를 이용할 수
+            있습니다. Google을 포함한 제3자 제공업체는 사용자의 이전 방문
+            기록을 바탕으로 쿠키(Cookie)를 사용하여 광고를 게재합니다.
+            사용자는 브라우저 설정이나 Google 광고 설정 페이지에서 쿠키
+            사용 및 개인 맞춤 광고 게재를 비활성화할 수 있습니다.
+          </p>
+          <p className="mt-2">
+            현재 이 사이트는 실제 광고 스크립트를 삽입하지 않은 상태이며,
+            광고가 실제로 노출되기 시작하는 시점과 조건은 이 페이지를 통해
+            안내합니다.
           </p>
         </section>
 

@@ -40,7 +40,7 @@ cp .env.example .env.local
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | canonical/sitemap/OG URL의 기준 도메인 | `https://calc-haneye.vercel.app` |
 | `NEXT_PUBLIC_ENABLE_ADS` | 광고 슬롯 노출 여부(`"true"`가 아니면 항상 미노출) | `false` |
-| `NEXT_PUBLIC_CONTACT_EMAIL` | 문의 페이지·Footer에 노출되는 이메일 | `contact@example.com` |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | 문의 페이지·Footer에 노출되는 이메일 | `youtsw9@gmail.com` |
 
 ## 테스트
 
@@ -69,7 +69,7 @@ npm run build
    ```
    NEXT_PUBLIC_SITE_URL=https://실제-프로젝트명.vercel.app
    NEXT_PUBLIC_ENABLE_ADS=false
-   NEXT_PUBLIC_CONTACT_EMAIL=contact@example.com
+   NEXT_PUBLIC_CONTACT_EMAIL=youtsw9@gmail.com
    ```
 3. 배포 후 실제 Vercel URL로 홈, 계산기 3종, 정책 페이지가 정상 동작하는지
    확인합니다.

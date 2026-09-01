@@ -7,7 +7,7 @@ export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://calc-haneye.vercel.app";
 
 export const contactEmail =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contact@example.com";
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "youtsw9@gmail.com";
 
 export const adsEnabled = process.env.NEXT_PUBLIC_ENABLE_ADS === "true";
 
