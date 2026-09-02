@@ -3,6 +3,9 @@ import { siteDescription, siteName, siteUrl } from "@/lib/constants/site";
 export const dynamic = "force-static";
 
 const items = [
+  ["알바 근로계약서 작성법: 꼭 확인할 7가지", "/guides/part-time-employment-contract", "아르바이트 근로계약서에 적을 시급, 근무일, 휴게시간과 주휴일을 설명합니다."],
+  ["급여명세서 보는 법", "/guides/payslip-reading-guide", "급여명세서의 지급 항목, 공제 항목과 실수령액을 대조하는 방법을 설명합니다."],
+  ["주 20시간 주휴수당 계산", "/guides/weekly-holiday-pay-20-hours", "주 20시간·주 5일 근무를 가정한 시급별 주휴수당 예시와 적용 조건을 설명합니다."],
   ["표준근로계약서 양식 다운로드와 작성 방법", "/guides/employment-contract-template", "고용노동부 공식 표준근로계약서 HWP와 계약서 작성 전 필수 확인사항을 안내합니다."],
   ["대출 상환 방식, 무엇이 다를까요?", "/guides/loan-interest-guide", "원리금균등·원금균등·만기일시상환의 월 납입액과 총이자 차이를 설명합니다."],
   ["예금과 적금 이자, 어떻게 달라질까요?", "/guides/savings-interest-guide", "예금·적금의 이자 계산 구조와 단리·복리, 일반과세 기준을 설명합니다."],
