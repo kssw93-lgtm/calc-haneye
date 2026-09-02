@@ -3,6 +3,10 @@ import { siteDescription, siteName, siteUrl } from "@/lib/constants/site";
 export const dynamic = "force-static";
 
 const items = [
+  ["청년전용 버팀목전세자금 확인사항", "/policies/youth-jeonse-loan", "청년 전세자금 정책대출의 신청 전 확인사항을 안내합니다."],
+  ["신혼부부 전세자금대출 확인 순서", "/policies/newlywed-jeonse-loan", "신혼부부 전세자금의 대상과 신청 전 확인사항을 안내합니다."],
+  ["전세보증금 반환보증 보증료 지원", "/policies/jeonse-guarantee-fee-support", "최대 40만원 보증료 지원과 지자체 예산 확인사항을 안내합니다."],
+  ["청년 월세 지원 확인 방법", "/policies/youth-monthly-rent-support", "중앙정부와 지자체 청년 월세지원의 최신 모집 확인 방법을 안내합니다."],
   ["퇴직금 1년 기준", "/guides/severance-pay-one-year", "퇴직금의 계속근로기간 1년과 주 15시간 기준을 설명합니다."],
   ["대출 1억 이자 계산", "/guides/loan-100-million-interest", "1억 원 대출의 금리별 월 이자를 비교합니다."],
   ["예금 1천만원 이자 계산", "/guides/deposit-10-million-interest", "연 3% 일반과세 예금의 세전·세후 이자를 계산합니다."],

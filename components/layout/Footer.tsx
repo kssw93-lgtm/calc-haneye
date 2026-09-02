@@ -6,6 +6,7 @@ const footerLinks = [
   { label: "금융", href: "/finance" },
   { label: "급여·노동", href: "/salary-work" },
   { label: "세금·부동산", href: "/property-tax" },
+  { label: "지원정책", href: "/policies" },
   { label: "서비스 소개", href: "/about" },
   { label: "문의", href: "/contact" },
   { label: "개인정보처리방침", href: "/privacy" },

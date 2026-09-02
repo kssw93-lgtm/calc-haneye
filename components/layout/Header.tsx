@@ -11,6 +11,7 @@ const navItems = [
   { label: "급여·노동", href: "/salary-work" },
   { label: "세금·부동산", href: "/property-tax" },
   { label: "계산 가이드", href: "/guides" },
+  { label: "지원정책", href: "/policies" },
 ];
 
 export function Header() {
