@@ -3,6 +3,7 @@ import { siteDescription, siteName, siteUrl } from "@/lib/constants/site";
 export const dynamic = "force-static";
 
 const items = [
+  ["표준근로계약서 양식 다운로드와 작성 방법", "/guides/employment-contract-template", "고용노동부 공식 표준근로계약서 HWP와 계약서 작성 전 필수 확인사항을 안내합니다."],
   ["대출 상환 방식, 무엇이 다를까요?", "/guides/loan-interest-guide", "원리금균등·원금균등·만기일시상환의 월 납입액과 총이자 차이를 설명합니다."],
   ["예금과 적금 이자, 어떻게 달라질까요?", "/guides/savings-interest-guide", "예금·적금의 이자 계산 구조와 단리·복리, 일반과세 기준을 설명합니다."],
   ["연봉 실수령액이 달라지는 이유", "/guides/salary-net-pay-guide", "사회보험료와 원천징수, 비과세 항목 때문에 실수령액이 달라지는 이유를 설명합니다."],

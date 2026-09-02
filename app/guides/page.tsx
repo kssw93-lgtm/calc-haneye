@@ -31,6 +31,7 @@ const guides = [
   },
   { title: "연봉 실수령액이 달라지는 이유", description: "4대보험, 원천징수, 비과세와 연말정산의 영향을 안내합니다.", href: "/guides/salary-net-pay-guide" },
   { title: "주휴수당 계산 전 확인할 조건", description: "주 15시간과 개근 등 핵심 조건을 안내합니다.", href: "/guides/weekly-holiday-pay-guide" },
+  { title: "표준근로계약서 양식 다운로드", description: "고용노동부 공식 HWP 양식과 작성 전 필수 확인사항을 안내합니다.", href: "/guides/employment-contract-template" },
   { title: "예금과 적금 이자 차이", description: "예금·적금과 단리·복리, 세전·세후 차이를 설명합니다.", href: "/guides/savings-interest-guide" },
   { title: "부동산 중개보수 확인사항", description: "상한요율과 협의 보수, 월세 거래금액 산정을 안내합니다.", href: "/guides/real-estate-brokerage-fee-guide" },
   { title: "보증금과 월세 전환", description: "전환율의 의미와 단순 환산 방법을 안내합니다.", href: "/guides/monthly-rent-conversion-guide" },

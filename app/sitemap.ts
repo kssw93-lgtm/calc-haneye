@@ -20,6 +20,7 @@ const staticPaths = [
   "/guides/home-acquisition-tax-guide",
   "/guides/salary-net-pay-guide",
   "/guides/weekly-holiday-pay-guide",
+  "/guides/employment-contract-template",
   "/guides/savings-interest-guide",
   "/guides/real-estate-brokerage-fee-guide",
   "/guides/monthly-rent-conversion-guide",
