@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   },
   description: siteDescription,
   verification: {
-    google: "NJZZ_YL-u6rnNMSUQodU0h51F0fSGaYFOqX2oKfIwW4",
+    google: "5OJkMME8EN4nADAz670iUFcsl_ZMvu4rjY_zGegg_cM",
   },
   openGraph: {
     type: "website",
