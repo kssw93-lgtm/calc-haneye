@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Container } from "@/components/layout/Container";
+import { PolicyCategoryIcon } from "@/components/policies/PolicyCategoryIcon";
 
 export interface PolicyData {
   category: string;
@@ -20,8 +21,7 @@ export function PolicyArticle({ data }: { data: PolicyData }) {
   return <Container className="max-w-3xl py-10 sm:py-14">
     <Breadcrumbs items={[{ label: "홈", href: "/" }, { label: "지원정책", href: "/policies" }, { label: data.title }]} />
     <article>
-      <div className="mt-4 flex flex-wrap items-center gap-2"><span className="rounded-full bg-brand-light px-3 py-1 text-xs font-semibold text-brand">{data.category}</span><span className="rounded-full bg-surface-muted px-3 py-1 text-xs font-semibold text-ink-soft">{data.status}</span><span className="text-xs text-ink-muted">확인일 {data.checkedAt}</span></div>
-      <h1 className="mt-3 text-2xl font-bold text-ink sm:text-3xl">{data.title}</h1><p className="mt-4 text-base leading-8 text-ink-soft">{data.summary}</p>
+      <div className="mt-5 flex items-start gap-4"><PolicyCategoryIcon category={data.category} large /><div><div className="flex flex-wrap items-center gap-2"><span className="rounded-full bg-brand-light px-3 py-1 text-xs font-semibold text-brand">{data.category}</span><span className="rounded-full bg-surface-muted px-3 py-1 text-xs font-semibold text-ink-soft">{data.status}</span></div><h1 className="mt-3 text-2xl font-bold text-ink sm:text-3xl">{data.title}</h1></div></div><p className="mt-4 text-base leading-8 text-ink-soft">{data.summary}</p><p className="mt-2 text-xs text-ink-muted">공식정보 확인일 {data.checkedAt}</p>
       <section className="mt-10"><h2 className="text-xl font-bold text-ink">누가 확인하면 좋을까요?</h2><ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-ink-soft">{data.audience.map(x => <li key={x}>{x}</li>)}</ul></section>
       <section className="mt-10"><h2 className="text-xl font-bold text-ink">지원 내용</h2><ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-ink-soft">{data.benefits.map(x => <li key={x}>{x}</li>)}</ul></section>
       <section className="mt-10"><h2 className="text-xl font-bold text-ink">신청 전 확인사항</h2><ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-ink-soft">{data.checks.map(x => <li key={x}>{x}</li>)}</ul></section>
