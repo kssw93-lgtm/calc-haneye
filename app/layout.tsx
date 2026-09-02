@@ -54,6 +54,7 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         <link rel="alternate" type="application/rss+xml" title={`${siteName} RSS`} href="/rss.xml" />
+        <meta name="google-adsense-account" content="ca-pub-8704899603701516" />
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8704899603701516"
