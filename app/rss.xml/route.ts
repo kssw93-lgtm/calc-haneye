@@ -3,6 +3,10 @@ import { siteDescription, siteName, siteUrl } from "@/lib/constants/site";
 export const dynamic = "force-static";
 
 const items = [
+  ["내집마련 디딤돌대출 확인 순서", "/policies/didimdol-home-loan", "무주택 실수요자의 디딤돌대출 신청 전 확인사항을 안내합니다."],
+  ["보금자리론 조건과 확인사항", "/policies/bogeumjari-loan", "고정금리 정책모기지 보금자리론의 신청 전 확인사항을 안내합니다."],
+  ["근로장려금 신청자격 확인 순서", "/policies/earned-income-tax-credit", "가구·소득·재산 기준과 정기·반기신청 확인사항을 안내합니다."],
+  ["국민내일배움카드 신청과 지원내용", "/policies/national-learning-card", "직업훈련비 지원과 카드 발급·훈련신청 방법을 안내합니다."],
   ["청년전용 버팀목전세자금 확인사항", "/policies/youth-jeonse-loan", "청년 전세자금 정책대출의 신청 전 확인사항을 안내합니다."],
   ["신혼부부 전세자금대출 확인 순서", "/policies/newlywed-jeonse-loan", "신혼부부 전세자금의 대상과 신청 전 확인사항을 안내합니다."],
   ["전세보증금 반환보증 보증료 지원", "/policies/jeonse-guarantee-fee-support", "최대 40만원 보증료 지원과 지자체 예산 확인사항을 안내합니다."],
