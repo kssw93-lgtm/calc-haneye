@@ -6,6 +6,7 @@ const staticPaths = [
   "",
   "/finance",
   "/property-tax",
+  "/salary-work",
   "/guides",
   "/about",
   "/contact",
@@ -15,6 +16,14 @@ const staticPaths = [
   "/guides/loan-interest-guide",
   "/guides/severance-pay-guide",
   "/guides/home-acquisition-tax-guide",
+  "/guides/salary-net-pay-guide",
+  "/guides/weekly-holiday-pay-guide",
+  "/guides/savings-interest-guide",
+  "/guides/real-estate-brokerage-fee-guide",
+  "/guides/monthly-rent-conversion-guide",
+  "/guides/salary-work",
+  "/guides/finance",
+  "/guides/property",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

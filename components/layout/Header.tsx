@@ -8,6 +8,7 @@ import { siteName } from "@/lib/constants/site";
 
 const navItems = [
   { label: "금융", href: "/finance" },
+  { label: "급여·노동", href: "/salary-work" },
   { label: "세금·부동산", href: "/property-tax" },
   { label: "계산 가이드", href: "/guides" },
 ];
