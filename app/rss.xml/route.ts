@@ -3,6 +3,11 @@ import { siteDescription, siteName, siteUrl } from "@/lib/constants/site";
 export const dynamic = "force-static";
 
 const items = [
+  ["퇴직금 1년 기준", "/guides/severance-pay-one-year", "퇴직금의 계속근로기간 1년과 주 15시간 기준을 설명합니다."],
+  ["대출 1억 이자 계산", "/guides/loan-100-million-interest", "1억 원 대출의 금리별 월 이자를 비교합니다."],
+  ["예금 1천만원 이자 계산", "/guides/deposit-10-million-interest", "연 3% 일반과세 예금의 세전·세후 이자를 계산합니다."],
+  ["전세 3억원 중개수수료", "/guides/jeonse-brokerage-fee", "서울 주택 전세 3억 원의 중개보수 상한을 계산합니다."],
+  ["보증금 1천·월세 50 중개수수료", "/guides/monthly-rent-brokerage-fee", "월세 거래금액과 중개보수 상한 계산 과정을 설명합니다."],
   ["알바 근로계약서 작성법: 꼭 확인할 7가지", "/guides/part-time-employment-contract", "아르바이트 근로계약서에 적을 시급, 근무일, 휴게시간과 주휴일을 설명합니다."],
   ["급여명세서 보는 법", "/guides/payslip-reading-guide", "급여명세서의 지급 항목, 공제 항목과 실수령액을 대조하는 방법을 설명합니다."],
   ["주 20시간 주휴수당 계산", "/guides/weekly-holiday-pay-20-hours", "주 20시간·주 5일 근무를 가정한 시급별 주휴수당 예시와 적용 조건을 설명합니다."],
