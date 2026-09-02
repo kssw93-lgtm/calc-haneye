@@ -28,6 +28,11 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
   },
+  alternates: {
+    types: {
+      "application/rss+xml": `${siteUrl}/rss.xml`,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -46,6 +51,9 @@ export default function RootLayout({
 
   return (
     <html lang="ko">
+      <head>
+        <link rel="alternate" type="application/rss+xml" title={`${siteName} RSS`} href="/rss.xml" />
+      </head>
       <body className="flex min-h-screen flex-col">
         <script
           type="application/ld+json"
