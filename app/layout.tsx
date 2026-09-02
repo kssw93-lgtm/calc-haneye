@@ -54,6 +54,11 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         <link rel="alternate" type="application/rss+xml" title={`${siteName} RSS`} href="/rss.xml" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8704899603701516"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className="flex min-h-screen flex-col">
         <Script src="https://wcs.pstatic.net/wcslog.js" strategy="afterInteractive" />
