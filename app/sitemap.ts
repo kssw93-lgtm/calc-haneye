@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { siteUrl } from "@/lib/constants/site";
 import { calculators } from "@/lib/constants/calculatorMetadata";
 
+export const dynamic = "force-static";
+
 const staticPaths = [
   "",
   "/finance",
