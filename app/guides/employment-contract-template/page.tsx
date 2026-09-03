@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CalculatorCTA } from "@/components/guides/CalculatorCTA";
 import { Download, ExternalLink } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Container } from "@/components/layout/Container";
@@ -54,7 +55,8 @@ export default function EmploymentContractTemplatePage() {
 
       <section className="mt-12"><h2 className="text-xl font-bold text-ink">서명하기 전에 점검하세요</h2><ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-ink-soft"><li>계약기간의 시작일과 종료일 또는 기간의 정함이 없다는 표시가 명확한지 확인합니다.</li><li>‘월급에 각종 수당 포함’처럼 범위가 모호하지 않고 기본급과 수당이 구분되어 있는지 확인합니다.</li><li>근무 시작·종료 시각과 휴게시간이 실제 근무 방식과 일치하는지 확인합니다.</li><li>작성하지 않은 빈칸을 남긴 채 서명하지 말고, 수정한 부분은 당사자가 함께 확인합니다.</li><li>서명한 계약서를 종이나 전자파일로 교부받아 급여명세서와 함께 보관합니다.</li></ul></section>
 
-      <section className="mt-12 rounded-card border border-hairline bg-surface-subtle p-6"><h2 className="text-lg font-bold text-ink">계약서 작성 후 같이 계산해 보세요</h2><div className="mt-3 flex flex-wrap gap-x-5 gap-y-3"><Link href="/calculators/weekly-holiday-pay" className="font-semibold text-brand hover:underline">주휴수당 계산기 →</Link><Link href="/calculators/severance-pay" className="font-semibold text-brand hover:underline">퇴직금 계산기 →</Link><Link href="/calculators/salary-net-pay" className="font-semibold text-brand hover:underline">연봉 실수령액 확인 →</Link></div></section>
+      <CalculatorCTA hrefs={["/calculators/weekly-holiday-pay", "/calculators/salary-net-pay"]} />
+      <p className="text-sm"><Link href="/calculators/severance-pay" className="font-semibold text-brand hover:underline">퇴직금도 함께 확인하기 →</Link></p>
 
       <section className="mt-12"><h2 className="text-xl font-bold text-ink">자주 묻는 질문</h2><div className="mt-4"><Accordion items={faqs} /></div></section>
 

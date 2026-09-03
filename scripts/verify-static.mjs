@@ -27,4 +27,13 @@ for (const url of urls) {
 const salary = readFileSync(join(root, "calculators/salary-net-pay.html"), "utf8");
 assert(salary.includes("공제액 직접 입력"), "Salary mode missing");
 assert(salary.includes("계산 결과와 함께"), "Related calculator links missing");
-console.log(JSON.stringify({ htmlPages: htmlFiles.length, sitemapUrls: urls.length, brokenInternalLinks: errors.length, searchVerificationTags: "passed" }, null, 2));
+const ctaPages = htmlFiles.filter(file => readFileSync(file, "utf8").includes("data-calculator-cta-link"));
+for (const slug of ["loan-rate-half-point-difference", "salary-family-withholding-example", "monthly-rent-management-cost-comparison", "severance-pay-guide", "loan-interest-guide", "home-acquisition-tax-guide", "salary-net-pay-guide", "loan-100-million-interest", "employment-contract-template"]) {
+  assert(readFileSync(join(root, "guides", slug + ".html"), "utf8").includes("data-calculator-cta-link"), "Article calculator button missing: " + slug);
+}
+const rss = readFileSync(join(root, "rss.xml"), "utf8");
+for (const slug of ["loan-rate-half-point-difference", "salary-family-withholding-example", "monthly-rent-management-cost-comparison"]) {
+  assert(sitemap.includes("/guides/" + slug), "New guide missing from sitemap: " + slug);
+  assert(rss.includes("/guides/" + slug), "New guide missing from RSS: " + slug);
+}
+console.log(JSON.stringify({ htmlPages: htmlFiles.length, sitemapUrls: urls.length, calculatorButtonPages: ctaPages.length, brokenInternalLinks: errors.length, searchVerificationTags: "passed" }, null, 2));

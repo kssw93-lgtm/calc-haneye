@@ -2,7 +2,23 @@ import { describe, expect, it } from "vitest";
 import { supplementalGuides } from "@/lib/constants/supplementalGuides";
 import { calculators } from "@/lib/constants/calculatorMetadata";
 import { getGeneralOneHomeAcquisitionTaxRate } from "@/lib/constants/taxRates";
+import { lookupWithholdingTax } from "@/lib/calculators/withholdingTax";
+import { calculateLoanInterest } from "@/lib/calculators/loanInterest";
 describe("추가 가이드 내용·산식 검증", () => {
+  it("가족·자녀 예시가 공식 세액표 조회와 일치한다", () => {
+    expect(lookupWithholdingTax(3_000_000, 1, 0)).toBe(74_350);
+    expect(lookupWithholdingTax(3_000_000, 2, 0)).toBe(56_850);
+    expect(lookupWithholdingTax(3_000_000, 2, 1)).toBe(36_020);
+  });
+  it("금리 0.5%p 및 관리비 비교 산식을 검산한다", () => {
+    const loan = (rate: number) => calculateLoanInterest({principal:100_000_000,annualRatePercent:rate,termMonths:12,repaymentMethod:"bulletPayment"});
+    expect(loan(4.5).totalInterest - loan(4).totalInterest).toBe(500_000);
+    expect(Math.round(100_000_000 * .005 / 12 * 6.5)).toBe(270_833);
+    expect((500_000+150_000)-(550_000+50_000)).toBe(50_000);
+    expect(50_000*24).toBe(1_200_000);
+    expect(Math.round(10_000_000*.04/12)).toBe(33_333);
+    expect(Math.round(50_000-10_000_000*.04/12)).toBe(16_667);
+  });
   it("취득세 세 가격 예시를 실제 세율 함수로 검산한다", () => {
     for (const [price, tax] of [[600_000_000,6_000_000],[750_000_000,15_000_000],[900_000_000,27_000_000]] as const) {
       expect(price * getGeneralOneHomeAcquisitionTaxRate(price)).toBe(tax);
