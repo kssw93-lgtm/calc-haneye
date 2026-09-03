@@ -16,6 +16,7 @@ import { calculateWeeklyHolidayPay } from "@/lib/calculators/weeklyHolidayPay";
 import { calculateSavingsInterest } from "@/lib/calculators/savingsInterest";
 import { calculateBrokerageFee } from "@/lib/calculators/realEstateBrokerageFee";
 import { calculateMonthlyRentConversion } from "@/lib/calculators/monthlyRentConversion";
+import { SalaryDeductionCalculator } from "@/components/calculators/SalaryDeductionCalculator";
 
 export type Phase2CalculatorKind = "salary" | "weekly" | "savings" | "brokerage" | "rent";
 type DisplayResult = { lines: { label: string; value: string; emphasis?: boolean }[]; notice: string; copy: string };
@@ -63,7 +64,7 @@ export function Phase2Calculator({ kind }: { kind: Phase2CalculatorKind }) {
     } catch (caught) { setResult(null); setError(caught instanceof Error ? caught.message : "입력값을 확인해 주세요."); }
   }
 
-  if (kind === "salary") return <CalculatorResultCard title="공식 기준 검토 상태"><div className="space-y-4"><p className="text-lg font-bold text-caution">현재 수치 계산 준비 중</p><p className="text-sm leading-relaxed text-ink-soft">2026년 국민연금·건강보험 기준은 확인했지만, 부양가족 수에 따른 근로소득 간이세액표와 사업장별 보험료 상·하한을 완전히 검증하기 전에는 실수령액을 임의 계산하지 않습니다.</p><CalculationNotice>실제 급여명세서의 공제액은 상여, 비과세 항목, 보험료 기준소득, 부양가족, 원천징수 및 연말정산에 따라 달라집니다.</CalculationNotice></div></CalculatorResultCard>;
+  if (kind === "salary") return <SalaryDeductionCalculator />;
 
   return <CalculatorShell inputSlot={<CalculatorInputCard><form onSubmit={onSubmit} onChange={() => result && setIsStale(true)} className="space-y-5">{renderFields(kind, transaction, setTransaction, direction, setDirection)}{error ? <p className="text-sm text-danger">{error}</p> : null}<div className="flex flex-col gap-2.5"><Button type="submit" size="lg" fullWidth>계산하기</Button><Button type="reset" variant="secondary" fullWidth onClick={() => { setResult(null); setError(null); setIsStale(false); }}>초기화</Button></div></form></CalculatorInputCard>} resultSlot={<CalculatorResultCard>{!result ? <EmptyResultState /> : <div className="space-y-5">{isStale ? <div className="rounded-lg border border-caution/30 bg-caution-light px-4 py-3 text-sm text-caution">입력값이 변경되었습니다. 다시 계산해 주세요.</div> : null}<div className={isStale ? "opacity-50" : "space-y-3"}>{result.lines.map((line) => <ResultLine key={line.label} {...line} />)}<ResultCopyButton getText={() => result.copy} className="mt-4" /></div><CalculationNotice>{result.notice}</CalculationNotice></div>}</CalculatorResultCard>} />;
 }

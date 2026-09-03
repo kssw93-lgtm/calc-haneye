@@ -1,4 +1,5 @@
 import { siteDescription, siteName, siteUrl } from "@/lib/constants/site";
+import { supplementalGuides } from "@/lib/constants/supplementalGuides";
 
 export const dynamic = "force-static";
 
@@ -40,8 +41,8 @@ export function GET() {
     <link>${siteUrl}</link>
     <description>${escapeXml(siteDescription)}</description>
     <language>ko-KR</language>
-    <lastBuildDate>${new Date("2026-09-02T00:00:00+09:00").toUTCString()}</lastBuildDate>
-    ${items.map(([title, path, description]) => `<item>
+    <lastBuildDate>${new Date("2026-09-03T00:00:00+09:00").toUTCString()}</lastBuildDate>
+    ${[...supplementalGuides.map(item => [item.title, `/guides/${item.slug}`, item.intro]), ...items].map(([title, path, description]) => `<item>
       <title>${escapeXml(title)}</title>
       <link>${siteUrl}${path}</link>
       <guid isPermaLink="true">${siteUrl}${path}</guid>

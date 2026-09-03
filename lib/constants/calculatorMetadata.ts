@@ -46,7 +46,7 @@ export const calculators: CalculatorMeta[] = [
     supportScope: "개인·유상취득·일반 1주택·감면 미적용 조건의 기본 취득세만 지원",
   },
   {
-    slug: "salary-net-pay", href: "/calculators/salary-net-pay", guideHref: "/guides/salary-net-pay-guide", category: "salary-work", icon: "salary", title: "연봉 실수령액 계산기", shortDescription: "2026년 공식 근로소득 간이세액표 검증 전에는 계산을 제한하고 확인 항목을 안내합니다.", supportScope: "공식 기준 검토 상태 안내",
+    slug: "salary-net-pay", href: "/calculators/salary-net-pay", guideHref: "/guides/salary-net-pay-guide", category: "salary-work", icon: "salary", title: "연봉 실수령액 계산기", shortDescription: "확인한 월 공제액을 직접 입력해 정기급여 실수령액과 원천징수 비율을 비교하세요.", supportScope: "공제액 직접 입력 · 세액표 및 보험료 자동 산정 미제공",
   },
   {
     slug: "weekly-holiday-pay", href: "/calculators/weekly-holiday-pay", guideHref: "/guides/weekly-holiday-pay-guide", category: "salary-work", icon: "weekly-pay", title: "주휴수당 계산기", shortDescription: "시급, 주 소정근로시간, 근무일수와 개근 여부로 주·월 예상액을 확인하세요.", supportScope: "시간급 근로자의 단순 참고 계산",

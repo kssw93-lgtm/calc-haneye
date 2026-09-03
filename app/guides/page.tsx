@@ -5,6 +5,7 @@ import { Container } from "@/components/layout/Container";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Card } from "@/components/ui/Card";
 import { pageMetadata } from "@/lib/utils/seo";
+import { supplementalGuides } from "@/lib/constants/supplementalGuides";
 
 export const metadata: Metadata = pageMetadata({
   title: "계산 가이드",
@@ -55,7 +56,7 @@ export default function GuidesPage() {
       </p>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {guides.map((guide) => (
+        {[...supplementalGuides.map(item => ({ title: item.title, description: item.intro, href: `/guides/${item.slug}` })), ...guides].map((guide) => (
           <Link key={guide.href} href={guide.href} className="block">
             <Card className="h-full transition-shadow hover:shadow-md">
               <BookOpen aria-hidden="true" className="h-6 w-6 text-brand" />
