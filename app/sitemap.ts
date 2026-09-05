@@ -31,6 +31,7 @@ const staticPaths = [
   "/guides/jeonse-brokerage-fee",
   "/guides/monthly-rent-brokerage-fee",
   "/policies",
+  "/welfare",
   "/policies/youth-jeonse-loan",
   "/policies/newlywed-jeonse-loan",
   "/policies/jeonse-guarantee-fee-support",

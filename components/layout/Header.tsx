@@ -12,6 +12,7 @@ const navItems = [
   { label: "세금·부동산", href: "/property-tax" },
   { label: "계산 가이드", href: "/guides" },
   { label: "지원정책", href: "/policies" },
+  { label: "복지검색", href: "/welfare" },
 ];
 
 export function Header() {
