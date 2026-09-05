@@ -3,8 +3,6 @@
 import { FormEvent, useEffect, useState } from "react";
 
 type WelfareItem = { id: string; name: string; summary: string; ministry: string; department: string; lifeCycle: string; target: string; themes: string; supportCycle: string; provision: string; online: boolean; contact: string; officialUrl: string };
-type WelfareDetail = { id: string; name: string; targetDetail: string; selectionCriteria: string; support: string; outline: string; contact: string; year: string; applicationMethods: { name: string; url: string }[]; links: { name: string; url: string }[] };
-
 export function WelfareSearch() {
   const [query, setQuery] = useState("청년");
   const [request, setRequest] = useState({ q: "청년", sequence: 0 });
@@ -12,8 +10,6 @@ export function WelfareSearch() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selected, setSelected] = useState<WelfareDetail | null>(null);
-  const [detailLoading, setDetailLoading] = useState("");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -27,18 +23,8 @@ export function WelfareSearch() {
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
-    setLoading(true); setError(""); setSelected(null);
+    setLoading(true); setError("");
     setRequest(previous => ({ q: query.trim(), sequence: previous.sequence + 1 }));
-  };
-  const showDetail = async (id: string) => {
-    setDetailLoading(id); setError("");
-    try {
-      const response = await fetch(`/api/welfare/${encodeURIComponent(id)}`);
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
-      setSelected(data);
-    } catch (error) { setError(error instanceof Error ? error.message : "상세정보를 불러오지 못했습니다."); }
-    finally { setDetailLoading(""); }
   };
 
   return <div className="mt-8">
@@ -60,14 +46,7 @@ export function WelfareSearch() {
       <h2 className="mt-3 text-lg font-bold text-ink">{item.name}</h2>
       <p className="mt-2 text-sm leading-7 text-ink-soft">{item.summary}</p>
       <dl className="mt-4 grid grid-cols-[5rem_1fr] gap-x-3 gap-y-2 text-xs leading-6"><dt className="text-ink-muted">지원주기</dt><dd className="text-ink-soft">{item.supportCycle || "상세 확인"}</dd><dt className="text-ink-muted">제공형태</dt><dd className="text-ink-soft">{item.provision || "상세 확인"}</dd><dt className="text-ink-muted">온라인신청</dt><dd className="text-ink-soft">{item.online ? "가능" : "공식 안내 확인"}</dd></dl>
-      <div className="mt-5 flex flex-wrap gap-3"><button type="button" onClick={() => showDetail(item.id)} disabled={detailLoading === item.id} className="rounded-lg bg-brand px-4 py-2.5 text-sm font-bold text-white disabled:opacity-60">{detailLoading === item.id ? "불러오는 중…" : "지원대상·내용 보기"}</button>{item.officialUrl && <a href={item.officialUrl} target="_blank" rel="noreferrer" className="rounded-lg border border-hairline px-4 py-2.5 text-sm font-semibold text-ink hover:border-brand">복지로 원문 ↗</a>}</div>
+      <div className="mt-5 flex flex-wrap gap-3"><a href={`/welfare/services/${encodeURIComponent(item.id)}`} className="rounded-lg bg-brand px-4 py-2.5 text-sm font-bold text-white">우리 사이트에서 자세히 보기</a></div>
     </article>)}</div>
-
-    {selected && <section aria-live="polite" className="mt-8 rounded-2xl border border-brand/20 bg-brand-light p-5 sm:p-7">
-      <p className="text-xs font-semibold text-brand">한국사회보장정보원 상세정보 · 기준연도 {selected.year || "원문 확인"}</p><h2 className="mt-2 text-xl font-bold text-ink">{selected.name}</h2>
-      {[['사업 안내', selected.outline], ['지원대상', selected.targetDetail], ['선정기준', selected.selectionCriteria], ['지원내용', selected.support]].filter(([,body]) => body).map(([title, body]) => <div key={title} className="mt-6"><h3 className="font-bold text-ink">{title}</h3><p className="mt-2 whitespace-pre-line text-sm leading-7 text-ink-soft">{body}</p></div>)}
-      {selected.contact && <p className="mt-6 text-sm text-ink-soft"><strong className="text-ink">문의:</strong> {selected.contact}</p>}
-      <p className="mt-6 text-xs leading-6 text-ink-muted">이 화면은 공공데이터를 보기 쉽게 정리한 비공식 참고 정보입니다. 신청 전 복지로와 담당기관의 최신 안내를 확인하세요.</p>
-    </section>}
   </div>;
 }
