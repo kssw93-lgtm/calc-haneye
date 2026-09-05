@@ -25,6 +25,17 @@ export function safeOfficialUrl(value = "") {
   }
 }
 
+export function safeHttpsUrl(value = "") {
+  try {
+    const url = new URL(text(value));
+    return url.protocol === "https:" && url.hostname.includes(".") && !url.username && !url.password
+      ? url.toString()
+      : "";
+  } catch {
+    return "";
+  }
+}
+
 export function tag(xml, name) {
   const match = xml.match(new RegExp(`<${name}>([\\s\\S]*?)<\\/${name}>`, "i"));
   return text(match?.[1]);

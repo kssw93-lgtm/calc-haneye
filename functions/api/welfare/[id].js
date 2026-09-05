@@ -1,6 +1,6 @@
-import { blocks, json, safeOfficialUrl, tag, upstream } from "../../_shared/welfare.js";
+import { blocks, json, safeHttpsUrl, tag, upstream } from "../../_shared/welfare.js";
 
-const related = (xml, name) => blocks(xml, name).map(item => ({ name: tag(item, "servSeDetailNm"), url: safeOfficialUrl(tag(item, "servSeDetailLink")) })).filter(item => item.name || item.url);
+const related = (xml, name) => blocks(xml, name).map(item => ({ name: tag(item, "servSeDetailNm"), url: safeHttpsUrl(tag(item, "servSeDetailLink")) })).filter(item => item.name || item.url);
 
 export async function onRequestGet(context) {
   const serviceKey = context.env.WELFARE_API_KEY;

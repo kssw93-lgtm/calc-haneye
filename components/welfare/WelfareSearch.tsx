@@ -46,7 +46,7 @@ export function WelfareSearch() {
       <h2 className="mt-3 text-lg font-bold text-ink">{item.name}</h2>
       <p className="mt-2 text-sm leading-7 text-ink-soft">{item.summary}</p>
       <dl className="mt-4 grid grid-cols-[5rem_1fr] gap-x-3 gap-y-2 text-xs leading-6"><dt className="text-ink-muted">지원주기</dt><dd className="text-ink-soft">{item.supportCycle || "상세 확인"}</dd><dt className="text-ink-muted">제공형태</dt><dd className="text-ink-soft">{item.provision || "상세 확인"}</dd><dt className="text-ink-muted">온라인신청</dt><dd className="text-ink-soft">{item.online ? "가능" : "공식 안내 확인"}</dd></dl>
-      <div className="mt-5 flex flex-wrap gap-3"><a href={`/welfare/services/${encodeURIComponent(item.id)}`} className="rounded-lg bg-brand px-4 py-2.5 text-sm font-bold text-white">우리 사이트에서 자세히 보기</a></div>
+      <div className="mt-5 flex flex-wrap gap-3"><a href={`/welfare/services/${encodeURIComponent(item.id)}`} className="rounded-lg bg-brand px-4 py-2.5 text-sm font-bold text-white">자세히 보기</a></div>
     </article>)}</div>
   </div>;
 }
