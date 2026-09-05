@@ -41,7 +41,7 @@ export function GET() {
     <link>${siteUrl}</link>
     <description>${escapeXml(siteDescription)}</description>
     <language>ko-KR</language>
-    <lastBuildDate>${new Date("2026-09-03T00:00:00+09:00").toUTCString()}</lastBuildDate>
+    <lastBuildDate>${new Date("2026-09-05T00:00:00+09:00").toUTCString()}</lastBuildDate>
     ${[...supplementalGuides.map(item => [item.title, `/guides/${item.slug}`, item.intro]), ...items].map(([title, path, description]) => `<item>
       <title>${escapeXml(title)}</title>
       <link>${siteUrl}${path}</link>

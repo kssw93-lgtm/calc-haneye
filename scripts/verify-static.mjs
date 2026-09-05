@@ -32,7 +32,7 @@ for (const slug of ["loan-rate-half-point-difference", "salary-family-withholdin
   assert(readFileSync(join(root, "guides", slug + ".html"), "utf8").includes("data-calculator-cta-link"), "Article calculator button missing: " + slug);
 }
 const rss = readFileSync(join(root, "rss.xml"), "utf8");
-for (const slug of ["loan-rate-half-point-difference", "salary-family-withholding-example", "monthly-rent-management-cost-comparison"]) {
+for (const slug of ["loan-rate-half-point-difference", "salary-family-withholding-example", "monthly-rent-management-cost-comparison", "weekly-hours-15-20-40-comparison", "four-hours-five-days-weekly-pay", "weekly-pay-late-early-leave"]) {
   assert(sitemap.includes("/guides/" + slug), "New guide missing from sitemap: " + slug);
   assert(rss.includes("/guides/" + slug), "New guide missing from RSS: " + slug);
 }
