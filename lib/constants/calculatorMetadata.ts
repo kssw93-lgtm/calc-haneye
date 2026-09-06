@@ -5,7 +5,7 @@ export interface CalculatorMeta {
   href: string;
   guideHref: string;
   category: CalculatorCategory;
-  icon: "loan" | "severance" | "acquisition-tax" | "salary" | "weekly-pay" | "savings" | "brokerage" | "rent";
+  icon: "loan" | "severance" | "acquisition-tax" | "salary" | "weekly-pay" | "savings" | "brokerage" | "rent" | "minimum-wage";
   title: string;
   shortDescription: string;
   supportScope: string;
@@ -50,6 +50,9 @@ export const calculators: CalculatorMeta[] = [
   },
   {
     slug: "weekly-holiday-pay", href: "/calculators/weekly-holiday-pay", guideHref: "/guides/weekly-holiday-pay-guide", category: "salary-work", icon: "weekly-pay", title: "주휴수당 계산기", shortDescription: "시급, 주 소정근로시간, 근무일수와 개근 여부로 주·월 예상액을 확인하세요.", supportScope: "시간급 근로자의 단순 참고 계산",
+  },
+  {
+    slug: "minimum-wage", href: "/calculators/minimum-wage", guideHref: "/guides/2027-minimum-wage", category: "salary-work", icon: "minimum-wage", title: "2027 최저임금 계산기", shortDescription: "2026·2027년 최저임금으로 일급·주급·월 환산액을 비교하세요.", supportScope: "시간급·주 40시간 이하·근무시간 균등 배치 가정의 참고 계산",
   },
   {
     slug: "savings-interest", href: "/calculators/savings-interest", guideHref: "/guides/savings-interest-guide", category: "finance", icon: "savings", title: "예·적금 이자 계산기", shortDescription: "예금·적금의 세전 이자와 일반과세 기준 세후 예상액을 확인하세요.", supportScope: "고정금리·일반과세·월말 납입 가정",

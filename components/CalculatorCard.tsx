@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BadgeDollarSign, Banknote, BriefcaseBusiness, Building2, House, Landmark, PiggyBank, WalletCards, type LucideIcon } from "lucide-react";
+import { ArrowRight, BadgeDollarSign, Banknote, BriefcaseBusiness, Building2, CircleDollarSign, House, Landmark, PiggyBank, WalletCards, type LucideIcon } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import type { CalculatorMeta } from "@/lib/constants/calculatorMetadata";
 
@@ -12,6 +12,7 @@ const ICONS: Record<CalculatorMeta["icon"], LucideIcon> = {
   savings: PiggyBank,
   brokerage: Building2,
   rent: BadgeDollarSign,
+  "minimum-wage": CircleDollarSign,
 };
 
 interface CalculatorCardProps {
