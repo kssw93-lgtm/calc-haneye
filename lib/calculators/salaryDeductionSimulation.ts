@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { calculateSocialInsurance, type PensionPeriod } from "@/lib/calculators/socialInsurance";
 
 const money = z.number().finite().int().min(0).max(10_000_000_000);
 export const salaryDeductionSchema = z.object({
@@ -37,4 +38,18 @@ export function calculateSalaryDeductions(raw: SalaryDeductionInput) {
   return { monthlyGross, taxableMonthly: monthlyGross - input.nonTaxableMeal,
     insurance, incomeTax, localIncomeTax, totalDeduction, monthlyNet,
     annualNet: monthlyNet * 12 };
+}
+
+export function calculateSalaryWithAutomaticInsurance(raw: SalaryDeductionInput, pensionPeriod: PensionPeriod) {
+  const withoutInsurance = { ...raw, pension: 0, health: 0, longTermCare: 0, employment: 0 };
+  const base = calculateSalaryDeductions(withoutInsurance);
+  const socialInsurance = calculateSocialInsurance({ monthlyInsurableWage: base.taxableMonthly, pensionPeriod });
+  const result = calculateSalaryDeductions({
+    ...raw,
+    pension: socialInsurance.nationalPension,
+    health: socialInsurance.healthInsurance,
+    longTermCare: socialInsurance.longTermCare,
+    employment: socialInsurance.employmentInsurance,
+  });
+  return { ...result, socialInsurance };
 }
