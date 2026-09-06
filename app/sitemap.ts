@@ -22,6 +22,7 @@ const staticPaths = [
   "/guides/salary-net-pay-guide",
   "/guides/weekly-holiday-pay-guide",
   "/guides/2027-minimum-wage",
+  "/guides/2026-unemployment-benefit",
   "/guides/employment-contract-template",
   "/guides/part-time-employment-contract",
   "/guides/payslip-reading-guide",
