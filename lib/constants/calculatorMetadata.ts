@@ -5,7 +5,7 @@ export interface CalculatorMeta {
   href: string;
   guideHref: string;
   category: CalculatorCategory;
-  icon: "loan" | "severance" | "acquisition-tax" | "salary" | "weekly-pay" | "savings" | "brokerage" | "rent" | "minimum-wage" | "unemployment" | "annual-leave";
+  icon: "loan" | "severance" | "acquisition-tax" | "salary" | "weekly-pay" | "savings" | "brokerage" | "rent" | "minimum-wage" | "unemployment" | "annual-leave" | "social-insurance";
   title: string;
   shortDescription: string;
   supportScope: string;
@@ -59,6 +59,9 @@ export const calculators: CalculatorMeta[] = [
   },
   {
     slug: "annual-leave-pay", href: "/calculators/annual-leave-pay", guideHref: "/guides/annual-leave-pay-guide", category: "salary-work", icon: "annual-leave", title: "연차 개수·연차수당 계산기", shortDescription: "입사일 기준 예상 연차 일수와 미사용 연차수당을 확인하세요.", supportScope: "5인 이상 사업장·주 15시간 이상·입사일 기준의 재직 중 참고 계산",
+  },
+  {
+    slug: "social-insurance", href: "/calculators/social-insurance", guideHref: "/guides/2026-social-insurance-rates", category: "salary-work", icon: "social-insurance", title: "2026년 4대보험 계산기", shortDescription: "월 보수액으로 국민연금·건강보험·장기요양·고용보험 근로자 부담액을 확인하세요.", supportScope: "2026년 직장가입 일반 근로자의 월 보험료 참고 계산",
   },
   {
     slug: "savings-interest", href: "/calculators/savings-interest", guideHref: "/guides/savings-interest-guide", category: "finance", icon: "savings", title: "예·적금 이자 계산기", shortDescription: "예금·적금의 세전 이자와 일반과세 기준 세후 예상액을 확인하세요.", supportScope: "고정금리·일반과세·월말 납입 가정",
