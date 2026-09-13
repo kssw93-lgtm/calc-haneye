@@ -1,0 +1,2 @@
+import { SearchGuide } from "@/components/guides/SearchGuide"; import { searchGuideData } from "@/lib/constants/searchGuideData"; import { pageMetadata } from "@/lib/utils/seo";
+export const metadata = pageMetadata({ title: searchGuideData.severanceOneYear.title, description: searchGuideData.severanceOneYear.intro, path: "/guides/severance-pay-one-year" }); export default function Page() { return <SearchGuide data={searchGuideData.severanceOneYear} />; }

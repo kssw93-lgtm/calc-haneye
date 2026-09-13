@@ -1,0 +1,2 @@
+import { SearchGuide } from "@/components/guides/SearchGuide"; import { searchGuideData } from "@/lib/constants/searchGuideData"; import { pageMetadata } from "@/lib/utils/seo";
+export const metadata = pageMetadata({ title: searchGuideData.monthlyFee.title, description: searchGuideData.monthlyFee.intro, path: "/guides/monthly-rent-brokerage-fee" }); export default function Page() { return <SearchGuide data={searchGuideData.monthlyFee} />; }

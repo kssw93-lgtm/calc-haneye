@@ -1,0 +1,2 @@
+import { GuideArticle } from "@/components/guides/GuideArticle"; import { guideData } from "@/lib/constants/guideData"; import { pageMetadata } from "@/lib/utils/seo";
+export const metadata = pageMetadata({ title: guideData.brokerage.title, description: guideData.brokerage.intro, path: guideData.brokerage.path }); export default function Page() { return <GuideArticle data={guideData.brokerage} />; }

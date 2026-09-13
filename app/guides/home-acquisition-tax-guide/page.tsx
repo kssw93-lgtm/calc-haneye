@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CalculatorCTA } from "@/components/guides/CalculatorCTA";
 import { Container } from "@/components/layout/Container";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
@@ -196,6 +197,7 @@ export default function HomeAcquisitionTaxGuidePage() {
           </div>
         </section>
 
+        <CalculatorCTA hrefs={["/calculators/home-acquisition-tax"]} />
         <section id="other-taxes">
           <h2 className="text-lg font-bold text-ink">
             지방교육세·농어촌특별세 등 별도 요소
