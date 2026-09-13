@@ -6,6 +6,8 @@ import { supplementalGuides } from "@/lib/constants/supplementalGuides";
 export const dynamic = "force-static";
 
 const staticPaths = [
+  "/tools/transactions",
+  "/news",
   "",
   "/finance",
   "/property-tax",

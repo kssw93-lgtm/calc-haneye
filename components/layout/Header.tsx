@@ -7,6 +7,8 @@ import { Container } from "./Container";
 import { siteName } from "@/lib/constants/site";
 
 const navItems = [
+  { label: "거래내역 분석", href: "/tools/transactions" },
+  { label: "금융뉴스", href: "/news" },
   { label: "금융", href: "/finance" },
   { label: "급여·노동", href: "/salary-work" },
   { label: "세금·부동산", href: "/property-tax" },
@@ -28,7 +30,7 @@ export function Header() {
           {siteName}
         </Link>
 
-        <nav aria-label="주요 메뉴" className="hidden items-center gap-1 sm:flex">
+        <nav aria-label="주요 메뉴" className="hidden items-center gap-1 lg:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -42,7 +44,7 @@ export function Header() {
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-ink hover:bg-surface-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-ink hover:bg-surface-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:hidden"
           aria-label={isMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
           aria-expanded={isMenuOpen}
           aria-controls="mobile-nav-panel"
@@ -59,7 +61,7 @@ export function Header() {
       {isMenuOpen ? (
         <div
           id="mobile-nav-panel"
-          className="border-t border-hairline bg-white sm:hidden"
+          className="border-t border-hairline bg-white lg:hidden"
         >
           <Container className="flex flex-col gap-1 py-3">
             {navItems.map((item) => (
