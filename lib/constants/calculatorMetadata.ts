@@ -1,11 +1,11 @@
-export type CalculatorCategory = "finance" | "property-tax";
+export type CalculatorCategory = "finance" | "salary-work" | "property-tax";
 
 export interface CalculatorMeta {
   slug: string;
   href: string;
   guideHref: string;
   category: CalculatorCategory;
-  icon: "loan" | "severance" | "acquisition-tax";
+  icon: "loan" | "severance" | "acquisition-tax" | "salary" | "weekly-pay" | "savings" | "brokerage" | "rent" | "minimum-wage" | "unemployment" | "annual-leave" | "social-insurance";
   title: string;
   shortDescription: string;
   supportScope: string;
@@ -27,7 +27,7 @@ export const calculators: CalculatorMeta[] = [
     slug: "severance-pay",
     href: "/calculators/severance-pay",
     guideHref: "/guides/severance-pay-guide",
-    category: "finance",
+    category: "salary-work",
     icon: "severance",
     title: "퇴직금 계산기",
     shortDescription:
@@ -44,6 +44,33 @@ export const calculators: CalculatorMeta[] = [
     shortDescription:
       "일반 1주택을 유상 취득하는 경우의 기본 취득세를 참고용으로 계산합니다.",
     supportScope: "개인·유상취득·일반 1주택·감면 미적용 조건의 기본 취득세만 지원",
+  },
+  {
+    slug: "salary-net-pay", href: "/calculators/salary-net-pay", guideHref: "/guides/salary-net-pay-guide", category: "salary-work", icon: "salary", title: "연봉 실수령액 계산기", shortDescription: "확인한 월 공제액을 직접 입력해 정기급여 실수령액과 원천징수 비율을 비교하세요.", supportScope: "공식 소득세표 조회 · 월 과세급여 1천만원 미만 · 보험료 직접 입력",
+  },
+  {
+    slug: "weekly-holiday-pay", href: "/calculators/weekly-holiday-pay", guideHref: "/guides/weekly-holiday-pay-guide", category: "salary-work", icon: "weekly-pay", title: "주휴수당 계산기", shortDescription: "시급, 주 소정근로시간, 근무일수와 개근 여부로 주·월 예상액을 확인하세요.", supportScope: "시간급 근로자의 단순 참고 계산",
+  },
+  {
+    slug: "minimum-wage", href: "/calculators/minimum-wage", guideHref: "/guides/2027-minimum-wage", category: "salary-work", icon: "minimum-wage", title: "2027 최저임금 계산기", shortDescription: "2026·2027년 최저임금으로 일급·주급·월 환산액을 비교하세요.", supportScope: "시간급·주 40시간 이하·근무시간 균등 배치 가정의 참고 계산",
+  },
+  {
+    slug: "unemployment-benefit", href: "/calculators/unemployment-benefit", guideHref: "/guides/2026-unemployment-benefit", category: "salary-work", icon: "unemployment", title: "2026 실업급여 계산기", shortDescription: "퇴직 전 평균 월급과 가입기간으로 구직급여 일액·지급일수·총액을 예상하세요.", supportScope: "2026년 이후 이직한 상용근로자의 단순 모의계산",
+  },
+  {
+    slug: "annual-leave-pay", href: "/calculators/annual-leave-pay", guideHref: "/guides/annual-leave-pay-guide", category: "salary-work", icon: "annual-leave", title: "연차 개수·연차수당 계산기", shortDescription: "입사일 기준 예상 연차 일수와 미사용 연차수당을 확인하세요.", supportScope: "5인 이상 사업장·주 15시간 이상·입사일 기준의 재직 중 참고 계산",
+  },
+  {
+    slug: "social-insurance", href: "/calculators/social-insurance", guideHref: "/guides/2026-social-insurance-rates", category: "salary-work", icon: "social-insurance", title: "2026년 4대보험 계산기", shortDescription: "월 보수액으로 국민연금·건강보험·장기요양·고용보험 근로자 부담액을 확인하세요.", supportScope: "2026년 직장가입 일반 근로자의 월 보험료 참고 계산",
+  },
+  {
+    slug: "savings-interest", href: "/calculators/savings-interest", guideHref: "/guides/savings-interest-guide", category: "finance", icon: "savings", title: "예·적금 이자 계산기", shortDescription: "예금·적금의 세전 이자와 일반과세 기준 세후 예상액을 확인하세요.", supportScope: "고정금리·일반과세·월말 납입 가정",
+  },
+  {
+    slug: "real-estate-brokerage-fee", href: "/calculators/real-estate-brokerage-fee", guideHref: "/guides/real-estate-brokerage-fee-guide", category: "property-tax", icon: "brokerage", title: "부동산 중개보수 계산기", shortDescription: "서울·경기·인천 주택 거래의 중개보수 상한액을 참고용으로 확인하세요.", supportScope: "서울·경기·인천·주택·상한요율 기준, 부가세 별도",
+  },
+  {
+    slug: "monthly-rent-conversion", href: "/calculators/monthly-rent-conversion", guideHref: "/guides/monthly-rent-conversion-guide", category: "property-tax", icon: "rent", title: "월세 전환 계산기", shortDescription: "사용자가 입력한 전환율로 보증금과 월세의 단순 환산액을 확인하세요.", supportScope: "사용자 입력 전환율 기반 단순 계산",
   },
 ];
 

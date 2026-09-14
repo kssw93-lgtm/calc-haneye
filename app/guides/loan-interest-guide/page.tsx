@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CalculatorCTA } from "@/components/guides/CalculatorCTA";
 import { Container } from "@/components/layout/Container";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
@@ -227,6 +228,7 @@ export default function LoanInterestGuidePage() {
           </p>
         </section>
 
+        <CalculatorCTA hrefs={["/calculators/loan-interest"]} />
         <section id="who">
           <h2 className="text-lg font-bold text-ink">어떤 방식을 살펴볼 수 있나요</h2>
           <p className="mt-2">

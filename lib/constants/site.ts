@@ -4,7 +4,7 @@ export const siteDescription =
   "대출 이자, 퇴직금, 주택 취득세를 쉽고 빠르게 계산하는 생활 금융 계산기";
 
 export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://calc-haneye.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://calc-haneye.kr";
 
 export const contactEmail =
   process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "youtsw9@gmail.com";

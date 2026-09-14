@@ -8,6 +8,7 @@ import {
   ScrollText,
   ShieldCheck,
   WalletCards,
+  BriefcaseBusiness,
 } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/Button";
@@ -19,15 +20,16 @@ import {
 import { pageMetadata } from "@/lib/utils/seo";
 
 export const metadata = pageMetadata({
-  title: "계산한눈에 - 대출 이자·퇴직금·취득세 계산기",
+  title: "계산한눈에 - 금융·급여·부동산 생활 계산기",
   description:
-    "대출 이자, 퇴직금, 주택 취득세를 입력값 기반으로 빠르게 계산하는 무료 생활 금융 계산기.",
+    "대출 이자, 예·적금, 퇴직금, 주휴수당, 취득세와 주택 계약 비용을 분야별로 확인하는 무료 생활 계산기.",
   path: "/",
 });
 
 const financeCalculators = getCalculatorsByCategory("finance");
+const salaryWorkCalculators = getCalculatorsByCategory("salary-work");
 const propertyTaxCalculators = getCalculatorsByCategory("property-tax");
-const popularCalculators = [...financeCalculators, ...propertyTaxCalculators];
+const popularCalculators = [...financeCalculators, ...salaryWorkCalculators, ...propertyTaxCalculators].slice(0, 6);
 
 const trustItems = [
   {
@@ -60,6 +62,9 @@ const guideCards = [
     title: "주택 취득세 계산 전 체크할 조건",
     href: "/guides/home-acquisition-tax-guide",
   },
+  { title: "주휴수당 계산 전 확인할 조건", href: "/guides/weekly-holiday-pay-guide" },
+  { title: "예금과 적금 이자 차이", href: "/guides/savings-interest-guide" },
+  { title: "부동산 중개보수 확인사항", href: "/guides/real-estate-brokerage-fee-guide" },
 ];
 
 export default function HomePage() {
@@ -74,8 +79,8 @@ export default function HomePage() {
               필요한 숫자만 빠르게.
             </h1>
             <p className="mt-4 text-base leading-relaxed text-ink-soft sm:text-lg">
-              대출 이자, 퇴직금, 주택 취득세를 입력값 기반으로 간편하게 계산해
-              보세요.
+              금융, 급여·노동, 세금·부동산 분야에서 지금 필요한 계산기를
+              빠르게 찾아보세요.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button href="/calculators/loan-interest" size="lg">
@@ -117,11 +122,16 @@ export default function HomePage() {
 
       <section className="border-y border-hairline bg-white py-14 sm:py-20">
         <Container>
-          <div className="grid gap-10 sm:grid-cols-2">
+          <div className="grid gap-10 md:grid-cols-3">
             <CategoryBlock
               title="금융 계산기"
               icon={Landmark}
               items={financeCalculators}
+            />
+            <CategoryBlock
+              title="급여·노동 계산기"
+              icon={BriefcaseBusiness}
+              items={salaryWorkCalculators}
             />
             <CategoryBlock
               title="세금·부동산 계산기"

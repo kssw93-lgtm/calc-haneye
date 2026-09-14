@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CalculatorCTA } from "@/components/guides/CalculatorCTA";
 import { Container } from "@/components/layout/Container";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
@@ -138,6 +139,7 @@ export default function SeverancePayGuidePage() {
           </p>
         </section>
 
+        <CalculatorCTA hrefs={["/calculators/severance-pay"]} />
         <section id="bonus">
           <h2 className="text-lg font-bold text-ink">4. 상여금 및 연차수당</h2>
           <p className="mt-2">

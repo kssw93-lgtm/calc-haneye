@@ -1,0 +1,3 @@
+import { GuideHub } from "@/components/guides/GuideHub"; import { pageMetadata } from "@/lib/utils/seo";
+export const metadata = pageMetadata({ title: "금융 계산 가이드", description: "대출 상환과 예·적금 이자 계산 방식을 비교해 보세요.", path: "/guides/finance" });
+export default function Page() { return <GuideHub title="금융 계산 가이드" description="돈을 빌릴 때의 이자와 돈을 모을 때의 이자를 계산 방식별로 이해합니다." flow="대출은 상환 방식에 따라 월 부담과 총 이자가 달라지고, 예·적금은 납입 시점과 단리·복리 및 세금에 따라 만기 수령액이 달라집니다." items={[{ title: "대출 이자", description: "원리금균등·원금균등·만기일시상환의 차이", guideHref: "/guides/loan-interest-guide", calculatorHref: "/calculators/loan-interest" }, { title: "예·적금 이자", description: "예금과 적금, 단리와 복리, 세전과 세후의 차이", guideHref: "/guides/savings-interest-guide", calculatorHref: "/calculators/savings-interest" }]} />; }
