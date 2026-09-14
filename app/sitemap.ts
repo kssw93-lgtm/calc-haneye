@@ -1,12 +1,14 @@
 import type { MetadataRoute } from "next";
 import { siteUrl } from "@/lib/constants/site";
 import { calculators } from "@/lib/constants/calculatorMetadata";
+import { newsArticles } from "@/lib/constants/newsMetadata";
 
 const staticPaths = [
   "",
   "/finance",
   "/property-tax",
   "/guides",
+  "/news",
   "/about",
   "/contact",
   "/privacy",
@@ -30,5 +32,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: now,
   }));
 
-  return [...staticEntries, ...calculatorEntries];
+  const newsEntries: MetadataRoute.Sitemap = newsArticles.map((item) => ({
+    url: `${siteUrl}${item.href}`,
+    lastModified: new Date(item.publishedAt),
+  }));
+
+  return [...staticEntries, ...calculatorEntries, ...newsEntries];
 }

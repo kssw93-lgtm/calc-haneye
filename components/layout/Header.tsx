@@ -9,6 +9,7 @@ import { siteName } from "@/lib/constants/site";
 const navItems = [
   { label: "금융", href: "/finance" },
   { label: "세금·부동산", href: "/property-tax" },
+  { label: "금융 뉴스", href: "/news" },
   { label: "계산 가이드", href: "/guides" },
 ];
 

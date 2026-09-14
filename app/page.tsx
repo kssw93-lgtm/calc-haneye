@@ -13,9 +13,11 @@ import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { CalculatorCard } from "@/components/CalculatorCard";
+import { MarketChartGraphic } from "@/components/news/MarketChartGraphic";
 import {
   getCalculatorsByCategory,
 } from "@/lib/constants/calculatorMetadata";
+import { getLatestNews } from "@/lib/constants/newsMetadata";
 import { pageMetadata } from "@/lib/utils/seo";
 
 export const metadata = pageMetadata({
@@ -25,6 +27,7 @@ export const metadata = pageMetadata({
   path: "/",
 });
 
+const latestNews = getLatestNews(1);
 const financeCalculators = getCalculatorsByCategory("finance");
 const propertyTaxCalculators = getCalculatorsByCategory("property-tax");
 const popularCalculators = [...financeCalculators, ...propertyTaxCalculators];
@@ -128,6 +131,46 @@ export default function HomePage() {
               icon={Receipt}
               items={propertyTaxCalculators}
             />
+          </div>
+        </Container>
+      </section>
+
+      <section className="py-14 sm:py-20">
+        <Container>
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-ink">오늘의 금융 뉴스</h2>
+            <Link
+              href="/news"
+              className="text-sm font-semibold text-brand hover:underline"
+            >
+              뉴스 더 보기 →
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-5 sm:grid-cols-2">
+            {latestNews.map((item) => (
+              <Link key={item.href} href={item.href} className="block">
+                <Card className="h-full overflow-hidden p-0 transition-shadow hover:shadow-md sm:flex sm:items-stretch">
+                  <MarketChartGraphic
+                    trend="down"
+                    className="aspect-[16/9] rounded-b-none border-0 border-b border-hairline sm:aspect-auto sm:w-48 sm:shrink-0 sm:rounded-r-none sm:border-b-0 sm:border-r"
+                  />
+                  <div className="p-5 sm:p-6">
+                    <div className="flex items-center gap-2 text-xs text-ink-muted">
+                      <span className="rounded-full bg-danger-light px-2 py-0.5 font-medium text-danger">
+                        {item.category}
+                      </span>
+                      <time dateTime={item.publishedAt}>{item.publishedAt}</time>
+                    </div>
+                    <h3 className="mt-2.5 text-base font-bold leading-snug text-ink">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">
+                      {item.description}
+                    </p>
+                  </div>
+                </Card>
+              </Link>
+            ))}
           </div>
         </Container>
       </section>
