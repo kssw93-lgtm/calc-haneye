@@ -49,7 +49,7 @@ export function getGeneralOneHomeAcquisitionTaxRate(priceWon: number): number {
   if (priceWon <= UPPER_BAND_MAX_WON) {
     const priceInHundredMillionWon = priceWon / 100_000_000;
     const ratePercent = priceInHundredMillionWon * (2 / 3) - 3;
-    return ratePercent / 100;
+    return Math.round((ratePercent / 100) * 10000) / 10000;
   }
 
   return UPPER_BAND_RATE;

@@ -7,7 +7,7 @@ export const SALARY_REFERENCE: SourceReference = {
   sourceUrl: "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7862&mi=6583",
   scope: "확인한 공제액으로 정기급여를 비교하는 보조 계산",
   excludedConditions: ["월 과세급여 1천만원 이상 자동 조회", "연말정산", "사업장별 고지액", "상여·성과급", "중도 입·퇴사"],
-  notes: "간이세액표는 월 과세급여 1천만원 미만·가족 1~11명만 자동 조회합니다. 보험료는 직접 입력합니다. 원천징수 비율은 80/100/120%로 비교하며 지방소득세는 소득세의 10%를 단순 적용합니다.",
+  notes: "간이세액표는 월 과세급여 1천만원 미만·가족 1~11명만 자동 조회합니다. 보험료는 2026년 요율로 자동 추정하며 급여명세서 공제액으로 직접 바꿀 수 있습니다. 원천징수 비율은 80/100/120%로 비교하며 지방소득세는 소득세의 10%를 단순 적용합니다.",
 };
 
 export const SALARY_CALCULATION_ENABLED = false;

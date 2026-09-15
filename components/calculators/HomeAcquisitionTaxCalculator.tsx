@@ -25,7 +25,7 @@ import { CalculationNotice } from "@/components/calculator/CalculationNotice";
 import { CalculatorMeta } from "@/components/calculator/CalculatorMeta";
 import { EmptyResultState } from "@/components/calculator/EmptyResultState";
 import { Button } from "@/components/ui/Button";
-import { Select } from "@/components/ui/Select";
+import { ConditionChoices } from "@/components/ui/ConditionChoices";
 import { FormField } from "@/components/ui/FormField";
 import { CurrencyInput } from "@/components/ui/CurrencyInput";
 import { formatWon } from "@/lib/utils/currency";
@@ -49,7 +49,6 @@ const DEFAULT_VALUES: HomeAcquisitionTaxFormValues = {
 
 export function HomeAcquisitionTaxCalculator() {
   const {
-    register,
     handleSubmit,
     control,
     reset,
@@ -164,26 +163,16 @@ export function HomeAcquisitionTaxCalculator() {
               required
               error={errors.acquisitionType?.message}
             >
-              <Select
-                id="acquisitionType"
-                options={acquisitionTypeOptions}
-                invalid={!!errors.acquisitionType}
-                {...register("acquisitionType")}
-              />
+              <Controller name="acquisitionType" control={control} render={({ field }) => <ConditionChoices name={field.name} value={field.value} onChange={field.onChange} options={acquisitionTypeOptions} />} />
             </FormField>
 
             <FormField
-              label="보유 주택 수"
+              label="이번 취득 후 세대 기준 주택 수"
               htmlFor="homeCount"
               required
               error={errors.homeCount?.message}
             >
-              <Select
-                id="homeCount"
-                options={homeCountOptions}
-                invalid={!!errors.homeCount}
-                {...register("homeCount")}
-              />
+              <Controller name="homeCount" control={control} render={({ field }) => <ConditionChoices name={field.name} value={field.value} onChange={field.onChange} options={homeCountOptions} />} />
             </FormField>
 
             <FormField
@@ -192,12 +181,7 @@ export function HomeAcquisitionTaxCalculator() {
               required
               error={errors.reductionStatus?.message}
             >
-              <Select
-                id="reductionStatus"
-                options={reductionStatusOptions}
-                invalid={!!errors.reductionStatus}
-                {...register("reductionStatus")}
-              />
+              <Controller name="reductionStatus" control={control} render={({ field }) => <ConditionChoices name={field.name} value={field.value} onChange={field.onChange} options={reductionStatusOptions} />} />
             </FormField>
 
             <FormField
@@ -206,12 +190,7 @@ export function HomeAcquisitionTaxCalculator() {
               required
               error={errors.jointOwnership?.message}
             >
-              <Select
-                id="jointOwnership"
-                options={jointOwnershipOptions}
-                invalid={!!errors.jointOwnership}
-                {...register("jointOwnership")}
-              />
+              <Controller name="jointOwnership" control={control} render={({ field }) => <ConditionChoices name={field.name} value={field.value} onChange={field.onChange} options={jointOwnershipOptions} />} />
             </FormField>
 
             <FormField
@@ -220,12 +199,7 @@ export function HomeAcquisitionTaxCalculator() {
               required
               error={errors.propertyType?.message}
             >
-              <Select
-                id="propertyType"
-                options={propertyTypeOptions}
-                invalid={!!errors.propertyType}
-                {...register("propertyType")}
-              />
+              <Controller name="propertyType" control={control} render={({ field }) => <ConditionChoices name={field.name} value={field.value} onChange={field.onChange} options={propertyTypeOptions} />} />
             </FormField>
 
             <div className="flex flex-col gap-2.5 pt-1">
@@ -246,7 +220,7 @@ export function HomeAcquisitionTaxCalculator() {
       }
       resultSlot={
         <CalculatorResultCard>
-          {!result || !calculatedValues ? (
+          {!result || !calculatedValues || isStale ? (
             <EmptyResultState />
           ) : (
             <div className="space-y-5">

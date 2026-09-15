@@ -35,6 +35,13 @@ export function pageMetadata({
       siteName,
       locale: "ko_KR",
       type: "website",
+      images: [{ url: absoluteUrl("/social-preview.png"), width: 1200, height: 630, alt: "계산한눈에 - 생활 계산기와 지원정책" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [absoluteUrl("/social-preview.png")],
     },
   };
 }

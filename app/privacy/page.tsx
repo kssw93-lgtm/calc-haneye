@@ -19,7 +19,7 @@ export default function PrivacyPage() {
       <h1 className="mt-4 text-2xl font-bold text-ink sm:text-3xl">
         개인정보처리방침
       </h1>
-      <p className="mt-2 text-xs text-ink-muted">최종 수정일: 2026-08-31</p>
+      <p className="mt-2 text-xs text-ink-muted">최종 수정일: 2026-09-10</p>
 
       <div className="mt-6 space-y-8 text-sm leading-relaxed text-ink-soft sm:text-base">
         <section>
@@ -60,7 +60,13 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-bold text-ink">4. 문의</h2>
+          <h2 className="text-lg font-bold text-ink">4. 복지 검색 및 접속 통계</h2>
+          <p className="mt-2">복지 검색어는 검색 결과 제공을 위해 사이트 서버와 한국사회보장정보원 공공 API로 전송됩니다. 검색어에 이름·주민등록번호·연락처 등 개인정보를 입력하지 마세요. 일반 계산기의 금액 입력과 복지 검색어 처리는 구분됩니다.</p>
+          <p className="mt-2">사이트는 네이버 애널리틱스를 사용하며 방문 페이지, 접속 환경 등 이용 통계가 처리될 수 있습니다. Cloudflare는 사이트 제공 및 보안을 위해 IP 주소와 요청 정보 등을 처리할 수 있습니다. 제3자 서비스의 정보 처리에는 해당 서비스의 개인정보 정책도 적용됩니다.</p>
+          <p className="mt-2"><a className="underline" href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer">Google 광고·쿠키 안내</a> · <a className="underline" href="https://myadcenter.google.com/" target="_blank" rel="noreferrer">Google 광고 설정</a></p>
+        </section>
+        <section>
+          <h2 className="text-lg font-bold text-ink">5. 문의</h2>
           <p className="mt-2">
             개인정보 관련 문의는{" "}
             <a

@@ -36,10 +36,14 @@ export async function onRequestGet(context) {
   if (!/^WLF\d{8}$/.test(id)) return new Response("올바르지 않은 복지서비스 주소입니다.", { status: 400 });
   try {
     const { response, xml } = await upstream("NationalWelfaredetailedV001", key, { callTp: "D", servId: id });
-    if (!response.ok || tag(xml, "resultCode") !== "0") return new Response("복지서비스 정보를 찾지 못했습니다.", { status: 404 });
+    if (!response.ok || tag(xml, "resultCode") !== "0") return new Response("공공데이터 조회가 일시적으로 지연되고 있습니다. 잠시 후 다시 확인해 주세요.", { status: 503, headers: { "Cache-Control": "no-store", "Retry-After": "300", "X-Robots-Tag": "noindex" } });
+    if (!tag(xml, "servNm")) return new Response("복지서비스 정보를 찾지 못했습니다.", { status: 404, headers: { "Cache-Control": "no-store", "X-Robots-Tag": "noindex" } });
     const officialUrl = `https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=${encodeURIComponent(id)}&wlfareInfoReldBztpCd=01`;
     const html = page({ id, name: tag(xml, "servNm"), ministry: tag(xml, "jurMnofNm"), outline: tag(xml, "wlfareInfoOutlCn"), target: tag(xml, "tgtrDtlCn"), criteria: tag(xml, "slctCritCn"), support: tag(xml, "alwServCn"), contact: tag(xml, "rprsCtadr"), year: tag(xml, "crtrYr"), officialUrl, links: relatedLinks(xml) });
-    return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, max-age=300, s-maxage=86400", "X-Content-Type-Options": "nosniff" } });
+    const complete = ["tgtrDtlCn", "slctCritCn", "alwServCn"].every(field => plainText(tag(xml, field)).length > 0);
+    const guidance = `<section><h2>신청 전 확인 순서</h2><ol><li>위 지원대상과 선정기준을 구분해 확인하세요. 대상에 해당해도 선정이 확정되는 것은 아닙니다.</li><li>원문에서 현재 접수기간, 거주지역 및 제출서류를 확인하세요.</li><li>담당기관에 중복지원 제한과 신청 경로를 확인한 뒤 신청하세요.</li></ol><p>이 페이지는 접수 중 여부를 실시간으로 판정하지 않습니다. 기준연도는 자료의 기준이며, 현재 신청 가능하다는 의미가 아닙니다. 지원내용에 금액이 없으면 임의의 예상 지원금을 제시하지 않습니다.</p></section><section><h2>계산한눈에 이용 안내</h2><p><a href="/guides">계산 가이드</a> · <a href="/about">운영 및 자료 작성 원칙</a> · <a href="/contact">오류 제보·문의</a> · <a href="/privacy">개인정보처리방침</a></p></section>`;
+    const reviewedHtml = html.replace('</article>', `${guidance}</article>`).replace('content="index,follow"', `content="${complete ? "index,follow" : "noindex,follow"}"`);
+    return new Response(reviewedHtml, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, max-age=300, s-maxage=3600", "X-Content-Type-Options": "nosniff", "X-Robots-Tag": complete ? "index,follow" : "noindex,follow" } });
   } catch {
     return new Response("복지서비스 정보를 불러오지 못했습니다.", { status: 502 });
   }

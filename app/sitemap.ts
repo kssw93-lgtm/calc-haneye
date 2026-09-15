@@ -8,6 +8,10 @@ export const dynamic = "force-static";
 const staticPaths = [
   "/tools/transactions",
   "/news",
+  "/news/krx-aftermarket-september-14",
+  "/news/insurance-liability-supervision-2026",
+  "/news/chuseok-illegal-lending-report-2026",
+  "/news/national-growth-fund-second-offering",
   "",
   "/finance",
   "/property-tax",

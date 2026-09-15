@@ -39,8 +39,8 @@ const trustItems = [
   },
   {
     icon: ShieldCheck,
-    title: "입력값을 서버에 저장하지 않음",
-    description: "입력하신 값은 브라우저에서만 계산되며 서버로 전송·저장되지 않습니다.",
+    title: "계산기 금액은 브라우저에서 처리",
+    description: "계산기 입력금액은 서버에 전송하지 않습니다. 복지 검색어는 공공 API로 전송되므로 개인정보를 입력하지 마세요.",
   },
   {
     icon: ScrollText,
@@ -50,6 +50,16 @@ const trustItems = [
 ];
 
 const guideCards = [
+  { title: "거래내역 CSV로 수입·지출 분석하기", href: "/tools/transactions" },
+  { title: "실업급여 예상 금액·지급일수 계산하기", href: "/calculators/unemployment-benefit" },
+  { title: "실업급여 계산 전 확인할 기준", href: "/guides/2026-unemployment-benefit" },
+  { title: "근로장려금 가구·소득·재산 확인 순서", href: "/policies/earned-income-tax-credit" },
+  { title: "주 20시간 근무, 주휴수당은 얼마일까요?", href: "/guides/weekly-holiday-pay-20-hours" },
+  { title: "주 15·20·40시간 근무 조건 비교", href: "/guides/weekly-hours-15-20-40-comparison" },
+  { title: "하루 4시간씩 주 5일 일할 때 주휴수당", href: "/guides/four-hours-five-days-weekly-pay" },
+  { title: "대출 1억원의 금리별 이자 비교", href: "/guides/loan-100-million-interest" },
+  { title: "월세와 관리비·보증금을 함께 비교하는 법", href: "/guides/monthly-rent-management-cost-comparison" },
+  { title: "6억·7억5천·9억원 주택 취득세 비교", href: "/guides/acquisition-tax-600m-900m" },
   {
     title: "대출 상환 방식 이해하기",
     href: "/guides/loan-interest-guide",
@@ -111,7 +121,7 @@ export default function HomePage() {
 
       <section className="py-14 sm:py-20">
         <Container>
-          <h2 className="text-2xl font-bold text-ink">많이 찾는 계산기</h2>
+          <h2 className="text-2xl font-bold text-ink">주요 생활 계산기</h2>
           <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {popularCalculators.map((calculator) => (
               <CalculatorCard key={calculator.slug} calculator={calculator} />
@@ -164,6 +174,7 @@ export default function HomePage() {
           <h2 className="text-2xl font-bold text-ink">
             계산 전에 알아두면 좋은 내용
           </h2>
+          <p className="mt-3 text-sm leading-relaxed text-ink-soft">내 근무시간, 대출금액, 주택가격에 가까운 사례부터 확인하세요. 각 가이드에서 적용 조건과 계산 예시를 읽고 관련 계산기로 직접 비교할 수 있습니다.</p>
           <div className="mt-6 grid gap-5 sm:grid-cols-3">
             {guideCards.map((guide) => (
               <Link
@@ -178,6 +189,7 @@ export default function HomePage() {
               </Link>
             ))}
           </div>
+          <Link href="/guides" className="mt-6 inline-block font-semibold text-brand underline">급여·대출·주택 계산 가이드 전체 보기 →</Link>
         </Container>
       </section>
 

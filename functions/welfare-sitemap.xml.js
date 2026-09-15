@@ -4,6 +4,12 @@ const escapeXml = value => String(value).replace(/[&<>"']/g, character => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;",
 }[character]));
 
+// HEAD must describe the same resource as GET, including upstream failures.
+export async function onRequestHead(context) {
+  const response = await onRequestGet(context);
+  return new Response(null, { status: response.status, headers: response.headers });
+}
+
 export async function onRequestGet(context) {
   const key = normalizedKey(context.env.WELFARE_API_KEY);
   if (!key) return new Response("Sitemap temporarily unavailable", { status: 503 });

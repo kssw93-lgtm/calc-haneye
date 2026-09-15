@@ -7,15 +7,21 @@ export async function onRequestGet(context) {
   }
 
   const requestUrl = new URL(context.request.url);
-  const pageNo = Math.max(1, Number.parseInt(requestUrl.searchParams.get("page") || "1", 10));
-  const numOfRows = Math.min(30, Math.max(1, Number.parseInt(requestUrl.searchParams.get("size") || "12", 10)));
+  const rawPage = requestUrl.searchParams.get("page") ?? "1";
+  const rawSize = requestUrl.searchParams.get("size") ?? "12";
+  const pageNo = Number(rawPage);
+  const numOfRows = Number(rawSize);
+  const query = (requestUrl.searchParams.get("q") || "").trim();
+  if (!/^\d+$/.test(rawPage) || !/^\d+$/.test(rawSize) || !Number.isSafeInteger(pageNo) || pageNo < 1 || pageNo > 1000 || numOfRows < 1 || numOfRows > 30 || query.length > 60) {
+    return json({ error: "검색어는 60자 이하, 페이지는 1~1000, 조회 개수는 1~30으로 입력하세요." }, 400);
+  }
   try {
     const { response, xml } = await upstream("NationalWelfarelistV001", serviceKey, {
       callTp: "L", pageNo, numOfRows, srchKeyCode: "003",
-      searchWrd: requestUrl.searchParams.get("q")?.slice(0, 60) || "",
+      searchWrd: query,
     });
     const resultCode = tag(xml, "resultCode");
-    if (!response.ok || resultCode !== "0") return json({ error: tag(xml, "resultMessage") || "복지서비스 조회에 실패했습니다.", resultCode }, 502);
+    if (!response.ok || resultCode !== "0") return json({ error: "복지서비스 조회에 실패했습니다." }, 502);
     const items = blocks(xml, "servList").map(item => ({
       id: tag(item, "servId"), name: tag(item, "servNm"), summary: tag(item, "servDgst"),
       ministry: tag(item, "jurMnofNm"), department: tag(item, "jurOrgNm"), lifeCycle: tag(item, "lifeArray"),

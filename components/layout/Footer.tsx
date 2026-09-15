@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowUpRight, MoonStar } from "lucide-react";
 import { Container } from "./Container";
 import { contactEmail, siteName } from "@/lib/constants/site";
 
@@ -20,6 +21,29 @@ export function Footer() {
   return (
     <footer className="border-t border-hairline bg-surface-subtle">
       <Container className="py-10">
+        <aside aria-label="운영자의 다른 서비스" className="mb-10">
+          <a
+            href="https://www.sajudalyeok.co.kr/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex flex-col gap-5 rounded-2xl bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-6 text-white shadow-sm transition hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-indigo-500 sm:flex-row sm:items-center sm:justify-between sm:p-8"
+          >
+            <div className="flex items-center gap-5">
+              <span className="hidden rounded-2xl border border-white/15 bg-white/5 p-4 sm:block" aria-hidden="true">
+                <MoonStar className="h-10 w-10 text-amber-200" strokeWidth={1.5} />
+              </span>
+              <div>
+                <p className="text-xs text-indigo-200">운영자가 함께 만드는 서비스 · 사주달력</p>
+                <p className="mt-2 text-xl font-bold tracking-tight sm:text-2xl">잠깐 쉬어가며, 나의 사주가 궁금하다면</p>
+                <p className="mt-2 text-sm text-slate-300">사주 · 만세력 · 타로를 사주달력에서 만나보세요.</p>
+              </div>
+            </div>
+            <span className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-xl bg-amber-100 px-5 py-3 text-sm font-bold text-slate-950 transition group-hover:bg-amber-200 sm:self-auto">
+              사주달력 보러가기 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              <span className="sr-only">(새 창)</span>
+            </span>
+          </a>
+        </aside>
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="text-base font-bold text-ink">{siteName}</p>

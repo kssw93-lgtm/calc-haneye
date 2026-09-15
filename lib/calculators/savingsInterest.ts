@@ -13,11 +13,11 @@ export function calculateSavingsInterest(input: SavingsInterestInput): SavingsIn
   const totalPrincipal = input.product === "deposit" ? principal : principal * termMonths;
   let grossInterest = 0;
   if (input.product === "deposit") grossInterest = input.method === "simple" ? principal * monthlyRate * termMonths : principal * ((1 + monthlyRate) ** termMonths - 1);
-  else for (let month = 1; month <= termMonths; month += 1) { const remaining = termMonths - month; grossInterest += input.method === "simple" ? principal * monthlyRate * remaining : principal * ((1 + monthlyRate) ** remaining - 1); }
+  // 가입 시 첫 납입, 이후 매월 같은 날 납입: 각 납입분은 n, n-1, ..., 1개월 운용.
+  else for (let month = 1; month <= termMonths; month += 1) { const remaining = termMonths - month + 1; grossInterest += input.method === "simple" ? principal * monthlyRate * remaining : principal * ((1 + monthlyRate) ** remaining - 1); }
   const roundedGross = Math.round(grossInterest);
   if (input.taxType === "special") return { totalPrincipal, grossInterest: roundedGross, estimatedTax: null, netInterest: null, maturityAmount: null, taxNotice: "비과세·세금우대 요건은 상품별로 확인해야 합니다." };
   const estimatedTax = Math.floor(roundedGross * GENERAL_INTEREST_INCOME_TAX_RATE);
   const netInterest = roundedGross - estimatedTax;
   return { totalPrincipal, grossInterest: roundedGross, estimatedTax, netInterest, maturityAmount: totalPrincipal + netInterest };
 }
-

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -50,6 +50,7 @@ export function SeverancePayCalculator() {
     reset,
     watch,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm<SeverancePayFormValues>({
     resolver: zodResolver(severancePayFormSchema),
@@ -67,6 +68,15 @@ export function SeverancePayCalculator() {
     useState<SeverancePayFormValues | null>(null);
 
   const currentValues = watch();
+  useEffect(() => {
+    const lastDay = parseDateOnly(currentValues.resignationDate);
+    if (!lastDay) return;
+    const end = new Date(lastDay.getTime() + 86400000);
+    const start = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth() - 3, 1));
+    const lastOfMonth = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + 1, 0)).getUTCDate();
+    start.setUTCDate(Math.min(end.getUTCDate(), lastOfMonth));
+    setValue("threeMonthDays", Math.round((end.getTime() - start.getTime()) / 86400000));
+  }, [currentValues.resignationDate, setValue]);
   const isStale =
     result !== null &&
     calculatedSnapshot !== null &&
@@ -147,7 +157,7 @@ export function SeverancePayCalculator() {
             </FormField>
 
             <FormField
-              label="퇴사일"
+              label="마지막 근무일 (재직 마지막 날)"
               htmlFor="resignationDate"
               required
               error={errors.resignationDate?.message}
@@ -189,7 +199,7 @@ export function SeverancePayCalculator() {
               htmlFor="threeMonthDays"
               required
               error={errors.threeMonthDays?.message}
-              hint="정확한 평균임금 계산을 위해 퇴직 전 3개월의 실제 역일수를 확인해 입력하세요."
+              hint="마지막 근무일 다음 날을 퇴직일로 보아 이전 3개월의 달력 일수를 자동 계산합니다. 제외기간이 있으면 일수와 임금 합계를 함께 조정하세요."
             >
               <Input
                 id="threeMonthDays"

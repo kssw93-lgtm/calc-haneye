@@ -56,6 +56,6 @@ export async function upstream(path, key, params) {
   const url = new URL(`${BASE_URL}/${path}`);
   url.searchParams.set("serviceKey", normalizedKey(key));
   for (const [name, value] of Object.entries(params)) if (value !== "" && value != null) url.searchParams.set(name, String(value));
-  const response = await fetch(url, { headers: { Accept: "application/xml" } });
+  const response = await fetch(url, { headers: { Accept: "application/xml" }, signal: AbortSignal.timeout(10000) });
   return { response, xml: await response.text() };
 }

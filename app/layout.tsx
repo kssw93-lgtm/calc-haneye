@@ -25,6 +25,13 @@ export const metadata: Metadata = {
     title: siteName,
     description: siteDescription,
     url: siteUrl,
+    images: [{ url: "/social-preview.png", width: 1200, height: 630, alt: "계산한눈에 - 생활 계산기와 지원정책" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteName,
+    description: siteDescription,
+    images: ["/social-preview.png"],
   },
   icons: {
     icon: "/favicon.svg",
@@ -55,11 +62,7 @@ export default function RootLayout({
       <head>
         <link rel="alternate" type="application/rss+xml" title={`${siteName} RSS`} href="/rss.xml" />
         <meta name="google-adsense-account" content="ca-pub-8704899603701516" />
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8704899603701516"
-          crossOrigin="anonymous"
-        />
+        {/* 심사 준비: 계정 확인 메타태그·ads.txt는 유지하고 광고 송출은 비활성화. */}
       </head>
       <body className="flex min-h-screen flex-col">
         <Script src="https://wcs.pstatic.net/wcslog.js" strategy="afterInteractive" />

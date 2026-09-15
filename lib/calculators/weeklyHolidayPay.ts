@@ -10,8 +10,8 @@ export function calculateWeeklyHolidayPay(input: WeeklyHolidayPayInput): WeeklyH
   if (input.attendance === "unknown") return { status: "unknown", reason: "개근 여부를 확인해야 계산할 수 있습니다.", weeklyHolidayHours: null, weeklyPay: null, monthlyPay: null };
   if (input.weeklyHours < WEEKLY_HOLIDAY_MIN_HOURS) return { status: "ineligible", reason: "주 소정근로시간이 15시간 미만입니다.", weeklyHolidayHours: 0, weeklyPay: 0, monthlyPay: 0 };
   if (input.attendance === "no") return { status: "ineligible", reason: "소정근로일 개근이 아닌 것으로 입력되었습니다.", weeklyHolidayHours: 0, weeklyPay: 0, monthlyPay: 0 };
-  const hours = input.weeklyHours / input.weeklyDays;
+  // 통상근로자 주 40시간·5일 사업장의 비례 산정 기준.
+  const hours = input.weeklyHours / 40 * 8;
   const weeklyPay = Math.round(hours * input.hourlyWage);
-  return { status: "eligible", reason: "입력 조건상 단순 계산 대상입니다.", weeklyHolidayHours: hours, weeklyPay, monthlyPay: Math.round(weeklyPay * weeks) };
+  return { status: "eligible", reason: "통상근로자 주 40시간·5일 사업장 기준으로 주 소정근로시간 ÷ 40 × 8을 적용했습니다. 월 금액은 평균 환산값입니다.", weeklyHolidayHours: hours, weeklyPay, monthlyPay: Math.round(weeklyPay * weeks) };
 }
-

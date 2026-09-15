@@ -10,7 +10,7 @@ export async function onRequestGet(context) {
   try {
     const { response, xml } = await upstream("NationalWelfaredetailedV001", serviceKey, { callTp: "D", servId: id });
     const resultCode = tag(xml, "resultCode");
-    if (!response.ok || resultCode !== "0") return json({ error: tag(xml, "resultMessage") || "상세정보 조회에 실패했습니다.", resultCode }, 502);
+    if (!response.ok || resultCode !== "0") return json({ error: "상세정보 조회에 실패했습니다." }, 502);
     return json({
       id: tag(xml, "servId"), name: tag(xml, "servNm"), ministry: tag(xml, "jurMnofNm"),
       targetDetail: tag(xml, "tgtrDtlCn"), selectionCriteria: tag(xml, "slctCritCn"), support: tag(xml, "alwServCn"),
