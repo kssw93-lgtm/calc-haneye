@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { siteUrl } from "@/lib/constants/site";
 import { calculators } from "@/lib/constants/calculatorMetadata";
 import { supplementalGuides } from "@/lib/constants/supplementalGuides";
+import { newsArticles } from "@/lib/news";
 
 export const dynamic = "force-static";
 
@@ -64,5 +65,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${siteUrl}${item.href}`,
   }));
 
-  return [...staticEntries, ...calculatorEntries, ...supplementalGuides.map(item => ({ url: `${siteUrl}/guides/${item.slug}`, lastModified: item.reviewedAt }))];
+  const newsEntries: MetadataRoute.Sitemap = newsArticles.map((item) => ({
+    url: `${siteUrl}/news/${item.slug}`,
+    lastModified: item.date,
+  }));
+
+  return [...staticEntries, ...calculatorEntries, ...supplementalGuides.map(item => ({ url: `${siteUrl}/guides/${item.slug}`, lastModified: item.reviewedAt })), ...newsEntries];
 }
