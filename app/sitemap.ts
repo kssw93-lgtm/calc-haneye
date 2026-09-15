@@ -2,16 +2,13 @@ import type { MetadataRoute } from "next";
 import { siteUrl } from "@/lib/constants/site";
 import { calculators } from "@/lib/constants/calculatorMetadata";
 import { supplementalGuides } from "@/lib/constants/supplementalGuides";
+import { newsArticles } from "@/lib/news";
 
 export const dynamic = "force-static";
 
 const staticPaths = [
   "/tools/transactions",
   "/news",
-  "/news/krx-aftermarket-september-14",
-  "/news/insurance-liability-supervision-2026",
-  "/news/chuseok-illegal-lending-report-2026",
-  "/news/national-growth-fund-second-offering",
   "",
   "/finance",
   "/property-tax",
@@ -68,5 +65,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${siteUrl}${item.href}`,
   }));
 
-  return [...staticEntries, ...calculatorEntries, ...supplementalGuides.map(item => ({ url: `${siteUrl}/guides/${item.slug}`, lastModified: item.reviewedAt }))];
+  const newsEntries: MetadataRoute.Sitemap = newsArticles.map((item) => ({
+    url: `${siteUrl}/news/${item.slug}`,
+    lastModified: item.date,
+  }));
+
+  return [...staticEntries, ...calculatorEntries, ...supplementalGuides.map(item => ({ url: `${siteUrl}/guides/${item.slug}`, lastModified: item.reviewedAt })), ...newsEntries];
 }
