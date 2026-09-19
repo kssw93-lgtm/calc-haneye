@@ -11,6 +11,7 @@ export default function WelfarePage() {
     <h1 className="mt-4 text-2xl font-bold text-ink sm:text-3xl">중앙부처 복지서비스 검색</h1>
     <p className="mt-3 max-w-3xl text-sm leading-7 text-ink-soft">한국사회보장정보원의 중앙부처복지서비스 공공데이터를 이용해 지원제도를 검색합니다. 이 서비스는 정부기관이 운영하는 신청·자격판정 서비스가 아니며, 실제 신청은 복지로 또는 담당기관에서 진행해야 합니다.</p>
     <WelfareSearch />
+    <p className="mt-6 text-sm"><a href="/welfare/list" className="font-semibold text-brand underline">전체 복지서비스 목록 보기 →</a></p>
     <section className="mt-10 border-t border-hairline pt-6"><h2 className="text-lg font-bold text-ink">데이터 출처와 이용 안내</h2><p className="mt-3 text-sm leading-7 text-ink-soft">출처: 한국사회보장정보원 중앙부처복지서비스 OpenAPI. 원본 데이터 갱신 시점과 실제 공고 사이에 차이가 있을 수 있으므로 지원금액·접수기간·소득 및 재산 기준은 공식 원문에서 다시 확인하세요.</p></section>
   </Container>;
 }
