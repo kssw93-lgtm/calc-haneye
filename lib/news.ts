@@ -13,6 +13,8 @@ export type NewsArticle = {
   extraSource?: { name: string; url: string };
   image?: string;
   sections?: { title: string; text: string }[];
+  toonImage?: string;
+  toonImageAlt?: string;
 };
 
 export const newsArticles: NewsArticle[] = [
@@ -254,6 +256,8 @@ export const newsArticles: NewsArticle[] = [
     sourceUrl: "https://www.mafra.go.kr",
     image: "/news-chuseok-price-support.svg",
     imageAlt: "정부가 추석 성수품 18만5000톤을 역대 최대로 공급하고 농축수산물 할인지원에 1,930억원을 투입하며, 9월 16일부터 20일까지 전국 전통시장에서 온누리상품권을 최대 4만원까지 환급해준다는 내용을 담은 인포그래픽",
+    toonImage: "/news-chuseok-price-support-toon.png",
+    toonImageAlt: "전통시장에서 폭염으로 오른 배추 가격에 놀랐다가, 정부의 할인지원 1,930억원 소식을 확인하고, 온누리상품권으로 최대 4만원을 환급받은 뒤, 유류세 인하로 귀성길 기름값까지 아끼게 되는 과정을 그린 6컷 만화",
     body: [
       "다음 주 추석을 앞두고 정부와 여당이 장바구니 물가 부담을 낮추기 위한 지원책을 대거 내놓았다. 지난 13일 고위당정협의회에서 결정된 내용이 18일 세부안으로 확정됐는데, 핵심은 성수품 공급을 역대 최대 규모로 늘리고 할인지원 예산을 지난해의 두 배 넘는 수준으로 키운 것이다. 배추·무 등 채소류와 사과·배 등 과일, 수산물 가격이 크게 오르며 체감 물가 부담이 커진 데 따른 조치다.",
       "물가 상승의 직접적인 원인은 올여름 폭염 등 이상기후로 지목된다. 전체 소비자물가 상승률은 2%대로 비교적 안정적인 수준을 유지하고 있지만, 신선식품을 중심으로 한 체감 물가는 이런 평균치와 괴리가 크다는 지적이 나온다. 이에 따라 정부는 19대 성수품을 평시 대비 대폭 늘려 공급하기로 했는데, 배추·무 등 채소류는 평시의 1.9배, 사과·배 등 성수품 과일은 3배 이상, 계란은 2.4배, 고등어·명태 등 수산물은 3배 이상, 밤·대추 등 임산물은 최대 9배까지 공급을 확대한다는 방침이다. 이렇게 늘어난 19대 성수품 공급량은 총 18만5000톤으로, 역대 최대 규모다.",
