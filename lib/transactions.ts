@@ -25,6 +25,26 @@ export function amount(value: string): number {
 }
 export type Kind = '수입' | '지출' | '이체' | '환불' | '확인 필요' | '제외';
 export type Transaction = { date: string; memo: string; incoming: number; outgoing: number; kind: Kind; category: string };
+export function transactionDate(value: string): string {
+  const raw = value.trim();
+  const match = /^(\d{4})(?:[-./년]\s*)(\d{1,2})(?:[-./월]\s*)(\d{1,2})(?:일)?(?:\s.*|T.*)?$/.exec(raw)
+    || /^(\d{4})(\d{2})(\d{2})$/.exec(raw);
+  if (!match) throw new Error('날짜 형식을 확인하세요. 예: 2026-09-01 또는 20260901');
+  const date = `${match[1]}-${match[2]!.padStart(2, '0')}-${match[3]!.padStart(2, '0')}`;
+  const parsed = new Date(date + 'T00:00:00Z');
+  if (!Number.isFinite(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== date) throw new Error('존재하지 않는 날짜입니다.');
+  return date;
+}
+export function duplicateCount(rows: Transaction[]): number {
+  const seen = new Set<string>();
+  let count = 0;
+  for (const row of rows) {
+    const key = JSON.stringify([row.date, row.memo, row.incoming, row.outgoing]);
+    if (seen.has(key)) count++;
+    else seen.add(key);
+  }
+  return count;
+}
 export function classify(memo: string, incoming: number): Pick<Transaction, 'kind' | 'category'> {
   if (/이체|송금|카드대금|대출|현금인출/.test(memo)) return { kind: '확인 필요', category: '이체·대출·결제 확인' };
   if (/환불|취소/.test(memo)) return { kind: '확인 필요', category: '환불 확인' };
