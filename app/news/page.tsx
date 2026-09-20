@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { Container } from "@/components/layout/Container";
 import { pageMetadata } from "@/lib/utils/seo";
-import { newsArticles } from "@/lib/news";
+import { getSortedNewsArticles } from "@/lib/news";
 
 export const metadata = pageMetadata({ title: "금융·정책 뉴스", description: "금융, 세금, 부동산, 복지정책의 주요 발표를 출처와 함께 중립적으로 정리합니다.", path: "/news" });
 
 export default function NewsPage() {
+  const newsArticles = getSortedNewsArticles();
   return <Container className="py-10 sm:py-14">
     <h1 className="text-3xl font-bold">금융·정책 뉴스</h1>
     <p className="mt-3 max-w-2xl leading-8 text-ink-soft">공식 발표와 공개 자료를 바탕으로 핵심 사실만 정리합니다. 투자 권유나 상품 추천을 하지 않습니다.</p>

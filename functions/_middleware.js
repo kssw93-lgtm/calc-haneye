@@ -1,11 +1,11 @@
 // Functions responses do not inherit Pages static _headers.
 export async function onRequest(context) {
   const url = new URL(context.request.url);
-  const dynamic = url.pathname.startsWith('/api/welfare') || url.pathname.startsWith('/welfare/services/') || url.pathname === '/welfare-sitemap.xml';
+  const dynamic = url.pathname.startsWith('/api/welfare') || url.pathname.startsWith('/welfare/services/') || url.pathname === '/welfare-sitemap.xml' || url.pathname === '/welfare/list';
   const cacheable = dynamic && context.request.method === 'GET';
   // Drop irrelevant query strings to avoid trivial cache bypass on detail pages.
   const cacheUrl = new URL(url.origin + url.pathname);
-  if (url.pathname === '/api/welfare') {
+  if (url.pathname === '/api/welfare' || url.pathname === '/welfare/list') {
     for (const key of ['q', 'page', 'size']) {
       if (url.searchParams.has(key)) cacheUrl.searchParams.set(key, url.searchParams.get(key));
     }
