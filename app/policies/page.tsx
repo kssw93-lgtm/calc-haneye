@@ -11,7 +11,9 @@ const entries = [
   ["youth-jeonse-loan", policyData.youthJeonse], ["newlywed-jeonse-loan", policyData.newlywedJeonse],
   ["jeonse-guarantee-fee-support", policyData.guaranteeFee], ["youth-monthly-rent-support", policyData.youthRent],
   ["didimdol-home-loan", policyData.didimdol], ["bogeumjari-loan", policyData.bogeumjari],
+  ["newborn-special-loan", policyData.newbornSpecialLoan],
   ["earned-income-tax-credit", policyData.earnedIncomeCredit], ["national-learning-card", policyData.learningCard],
+  ["child-tax-credit", policyData.childTaxCredit], ["job-seeker-allowance", policyData.jobSeekerAllowance],
 ] as const;
 const categories = ["주거·부동산", "대출·금융", "근로·소득", "청년·가족"];
 
