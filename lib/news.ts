@@ -335,4 +335,6 @@ export const newsArticles: NewsArticle[] = [
 
 export function getNewsArticle(slug: string) { return newsArticles.find(article => article.slug === slug); }
 
-export function getSortedNewsArticles() { return [...newsArticles].sort((a, b) => b.date.localeCompare(a.date)); }
+export function getDisplayDate(article: NewsArticle) { return article.publishedAt ?? article.date; }
+
+export function getSortedNewsArticles() { return [...newsArticles].sort((a, b) => getDisplayDate(b).localeCompare(getDisplayDate(a))); }
