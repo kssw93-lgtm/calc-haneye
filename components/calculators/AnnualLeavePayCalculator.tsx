@@ -1,3 +1,48 @@
-"use client";import { useState,type FormEvent } from "react";import { calculateAnnualLeavePay } from "@/lib/calculators/annualLeavePay";import { formatWon } from "@/lib/utils/currency";
-export function AnnualLeavePayCalculator(){const [result,setResult]=useState<ReturnType<typeof calculateAnnualLeavePay>|null>(null);const [error,setError]=useState("");function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();setError("");const d=new FormData(e.currentTarget);try{setResult(calculateAnnualLeavePay({startDate:String(d.get("start")),asOfDate:String(d.get("asOf")),attendance80:d.get("attendance")==="yes",perfectMonths:Number(d.get("perfect")),unusedDays:Number(d.get("unused")),hourlyOrdinaryWage:Number(d.get("wage")),dailyHours:Number(d.get("daily")),weeklyHours:Number(d.get("weekly")),workplaceFivePlus:d.get("five")==="yes"}))}catch(c){setResult(null);setError(c instanceof Error?c.message:"입력값을 확인해 주세요.")}}return <div className="mt-8 grid gap-6 lg:grid-cols-2"><form onChange={() => { setResult(null); setError(""); }} onSubmit={submit} className="space-y-4 rounded-card border border-hairline bg-white p-6"><div className="grid gap-4 sm:grid-cols-2"><Field label="입사일" name="start" type="date" value="2025-09-06"/><Field label="계산 기준일" name="asOf" type="date" value="2026-09-06"/></div><Select label="상시근로자 5인 이상" name="five"/><Field label="주 소정근로시간" name="weekly" value="40"/><Select label="직전 1년 출근율 80% 이상" name="attendance"/><Field label="개근한 월 수" name="perfect" value="12"/><Field label="미사용 연차 일수" name="unused" value="5"/><Field label="통상시급" name="wage" value="12000"/><Field label="1일 소정근로시간" name="daily" value="8"/>{error&&<p className="text-sm text-danger">{error}</p>}<button className="min-h-12 w-full rounded-lg bg-brand font-bold text-white">계산하기</button></form><section aria-live="polite" className="rounded-card border border-hairline bg-surface-subtle p-6"><h2 className="text-lg font-bold">예상 결과</h2>{result?<>{!result.applicable&&<p className="mt-4 rounded-lg bg-caution-light p-3 text-sm text-caution">5인 이상·주 15시간 이상 지원 범위를 충족하지 않아 법정 연차를 계산하지 않았습니다.</p>}<dl className="mt-5 space-y-4">{[["완료 근속기간",`${result.completedYears}년 · ${result.completedMonths}개월`],["이번 기준 예상 연차",`${result.grantedDays}일`],["수당 계산 반영 일수",`${result.payableUnusedDays}일`],["1일 통상임금 추정",formatWon(result.dailyOrdinaryWage)],["미사용 연차수당 추정",formatWon(result.estimatedUnusedPay)]].map(([l,v])=><div key={l} className="flex justify-between gap-4"><dt className="text-sm text-ink-soft">{l}</dt><dd className="text-right font-bold">{v}</dd></div>)}</dl></>:<p className="mt-4 text-sm text-ink-muted">입사일과 근로조건을 입력하면 예상 일수와 수당을 표시합니다.</p>}<p className="mt-6 text-xs leading-6 text-ink-muted">주 40시간 통상근로자의 입사일 기준 재직 중 단순 계산입니다. 단시간근로자는 별도 시간 비례 산정이 필요해 지원하지 않습니다. 회계연도 부여, 퇴사일 정산, 사용촉진, 휴직·출근율 산정과 취업규칙상 평균임금 지급은 별도 확인하세요.</p></section></div>}
-function Field({label,name,value,type="number"}:{label:string;name:string;value:string;type?:string}){return <label className="block text-sm font-bold">{label}<input required name={name} type={type} min={type==="number"?"0":undefined} defaultValue={value} className="mt-2 min-h-12 w-full rounded-lg border border-hairline px-3"/></label>}function Select({label,name}:{label:string;name:string}){return <label className="block text-sm font-bold">{label}<select name={name} className="mt-2 min-h-12 w-full rounded-lg border border-hairline px-3"><option value="yes">예</option><option value="no">아니오</option></select></label>}
+"use client";import { useCallback, useRef, useState, type FormEvent } from "react";import { useSearchParams } from "next/navigation";import { calculateAnnualLeavePay } from "@/lib/calculators/annualLeavePay";import { formatWon } from "@/lib/utils/currency";import { useAutoCalculateOnMount } from "@/components/calculator/useAutoCalculateOnMount";
+
+export interface AnnualLeavePayInitialValues {
+  start?: string; asOf?: string; five?: string; weekly?: string; attendance?: string; perfect?: string; unused?: string; wage?: string; daily?: string;
+}
+
+export function AnnualLeavePayCalculator({ initialValues }: { initialValues?: AnnualLeavePayInitialValues } = {}) {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [result, setResult] = useState<ReturnType<typeof calculateAnnualLeavePay> | null>(null);
+  const [error, setError] = useState("");
+
+  const compute = useCallback((d: FormData) => {
+    try {
+      setResult(calculateAnnualLeavePay({ startDate: String(d.get("start")), asOfDate: String(d.get("asOf")), attendance80: d.get("attendance") === "yes", perfectMonths: Number(d.get("perfect")), unusedDays: Number(d.get("unused")), hourlyOrdinaryWage: Number(d.get("wage")), dailyHours: Number(d.get("daily")), weeklyHours: Number(d.get("weekly")), workplaceFivePlus: d.get("five") === "yes" }));
+      setError("");
+    } catch (c) {
+      setResult(null); setError(c instanceof Error ? c.message : "입력값을 확인해 주세요.");
+    }
+  }, []);
+
+  function submit(e: FormEvent<HTMLFormElement>) { e.preventDefault(); compute(new FormData(e.currentTarget)); }
+
+  useAutoCalculateOnMount(formRef, Boolean(initialValues?.start && initialValues?.asOf), compute);
+
+  return <div className="mt-8 grid gap-6 lg:grid-cols-2"><form ref={formRef} onChange={() => { setResult(null); setError(""); }} onSubmit={submit} className="space-y-4 rounded-card border border-hairline bg-white p-6"><div className="grid gap-4 sm:grid-cols-2"><Field label="입사일" name="start" type="date" value={initialValues?.start ?? "2025-09-06"} /><Field label="계산 기준일" name="asOf" type="date" value={initialValues?.asOf ?? "2026-09-06"} /></div><Select label="상시근로자 5인 이상" name="five" value={initialValues?.five} /><Field label="주 소정근로시간" name="weekly" value={initialValues?.weekly ?? "40"} /><Select label="직전 1년 출근율 80% 이상" name="attendance" value={initialValues?.attendance} /><Field label="개근한 월 수" name="perfect" value={initialValues?.perfect ?? "12"} /><Field label="미사용 연차 일수" name="unused" value={initialValues?.unused ?? "5"} /><Field label="통상시급" name="wage" value={initialValues?.wage ?? "12000"} /><Field label="1일 소정근로시간" name="daily" value={initialValues?.daily ?? "8"} />{error && <p className="text-sm text-danger">{error}</p>}<button className="min-h-12 w-full rounded-lg bg-brand font-bold text-white">계산하기</button></form><section aria-live="polite" className="rounded-card border border-hairline bg-surface-subtle p-6"><h2 className="text-lg font-bold">예상 결과</h2>{result ? <>{!result.applicable && <p className="mt-4 rounded-lg bg-caution-light p-3 text-sm text-caution">5인 이상·주 15시간 이상 지원 범위를 충족하지 않아 법정 연차를 계산하지 않았습니다.</p>}<dl className="mt-5 space-y-4">{[["완료 근속기간", `${result.completedYears}년 · ${result.completedMonths}개월`], ["이번 기준 예상 연차", `${result.grantedDays}일`], ["수당 계산 반영 일수", `${result.payableUnusedDays}일`], ["1일 통상임금 추정", formatWon(result.dailyOrdinaryWage)], ["미사용 연차수당 추정", formatWon(result.estimatedUnusedPay)]].map(([l, v]) => <div key={l} className="flex justify-between gap-4"><dt className="text-sm text-ink-soft">{l}</dt><dd className="text-right font-bold">{v}</dd></div>)}</dl></> : <p className="mt-4 text-sm text-ink-muted">입사일과 근로조건을 입력하면 예상 일수와 수당을 표시합니다.</p>}<p className="mt-6 text-xs leading-6 text-ink-muted">주 40시간 통상근로자의 입사일 기준 재직 중 단순 계산입니다. 단시간근로자는 별도 시간 비례 산정이 필요해 지원하지 않습니다. 회계연도 부여, 퇴사일 정산, 사용촉진, 휴직·출근율 산정과 취업규칙상 평균임금 지급은 별도 확인하세요.</p></section></div>;
+}
+function Field({ label, name, value, type = "number" }: { label: string; name: string; value: string; type?: string }) { return <label className="block text-sm font-bold">{label}<input required name={name} type={type} min={type === "number" ? "0" : undefined} defaultValue={value} className="mt-2 min-h-12 w-full rounded-lg border border-hairline px-3" /></label>; }
+function Select({ label, name, value }: { label: string; name: string; value?: string }) { return <label className="block text-sm font-bold">{label}<select name={name} defaultValue={value ?? "yes"} className="mt-2 min-h-12 w-full rounded-lg border border-hairline px-3"><option value="yes">예</option><option value="no">아니오</option></select></label>; }
+
+/** URL 쿼리스트링으로 초기값을 채운 연차 계산기. 호출부는 Suspense로 감싸야 한다. */
+export function AnnualLeavePayCalculatorWithPrefill() {
+  const searchParams = useSearchParams();
+  return (
+    <AnnualLeavePayCalculator
+      initialValues={{
+        start: searchParams.get("start") ?? undefined,
+        asOf: searchParams.get("asOf") ?? undefined,
+        five: searchParams.get("five") ?? undefined,
+        weekly: searchParams.get("weekly") ?? undefined,
+        attendance: searchParams.get("attendance") ?? undefined,
+        perfect: searchParams.get("perfect") ?? undefined,
+        unused: searchParams.get("unused") ?? undefined,
+        wage: searchParams.get("wage") ?? undefined,
+        daily: searchParams.get("daily") ?? undefined,
+      }}
+    />
+  );
+}

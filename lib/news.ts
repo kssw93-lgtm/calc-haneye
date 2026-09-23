@@ -16,6 +16,8 @@ export type NewsArticle = {
   toonImage?: string;
   toonImageAlt?: string;
   walletTakeaway?: string[];
+  /** 자동 키워드 탐지 대신 사용할 관련 계산기 href 목록. 쿼리스트링으로 계산기 값을 미리 채울 수 있다(예: "/calculators/loan-interest?principal=50000000"). */
+  calculatorHrefOverrides?: string[];
 };
 
 export const newsArticles: NewsArticle[] = [
@@ -222,6 +224,7 @@ export const newsArticles: NewsArticle[] = [
       "디딤돌·보금자리론 등 정책대출은 총량 규제와 별도로 운용돼 일반 신용대출보다 상대적으로 안정적으로 이용할 수 있습니다.",
       "잔금·전세자금 시점이 다가온다면 한도가 소진되기 전에 서둘러 상담받는 것이 유리합니다.",
     ],
+    calculatorHrefOverrides: ["/calculators/loan-interest?principal=50000000"],
     body: [
       "KB국민은행이 16일부터 마이너스통장(통장자동대출) 한도를 연소득 수준과 관계없이 5,000만원으로 일괄 제한하고, 신용대출 한도도 최대 1억원으로 낮췄다. 앞서 국민은행은 주택 구입 목적 주택담보대출 한도를 기존 6억원에서 3억원으로 줄인 데 이어 개인신용대출 관리까지 강화에 나선 것으로, 시중은행권의 가계대출 조이기가 하반기 들어서도 계속되고 있음을 보여준다. 통장자동대출은 별도 심사 없이 한도 안에서 수시로 인출·상환할 수 있는 상품이어서, 이번 조치로 급전이 필요한 고소득자도 종전보다 훨씬 적은 금액만 빌릴 수 있게 됐다.",
       "같은 시기 발표된 은행권 집계에 따르면 9월 14일 기준 KB국민·신한·하나·우리·NH농협 등 5대 은행의 가계대출 잔액은 781조7,932억원으로 8월 말(782조1,192억원)보다 3,260억원 줄었다. 5대 은행 가계대출 잔액이 전월 대비 감소한 것은 약 반년 만이다. 항목별로 보면 주택담보대출이 621조2,730억원에서 620조6,838억원으로 5,893억원 줄어 감소분의 대부분을 차지했다.",
@@ -431,6 +434,7 @@ const calculatorKeywordRules: { href: string; pattern: RegExp }[] = [
 ];
 
 export function getRelatedCalculatorHrefs(article: NewsArticle): string[] {
+  if (article.calculatorHrefOverrides) return article.calculatorHrefOverrides;
   const text = `${article.title} ${article.summary} ${article.body.join(" ")}`;
   const matched = calculatorKeywordRules.filter(rule => rule.pattern.test(text)).map(rule => rule.href);
   return [...new Set(matched)].slice(0, 2);

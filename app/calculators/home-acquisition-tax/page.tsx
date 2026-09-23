@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Container } from "@/components/layout/Container";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { HomeAcquisitionTaxCalculator } from "@/components/calculators/HomeAcquisitionTaxCalculator";
+import { HomeAcquisitionTaxCalculatorWithPrefill } from "@/components/calculators/HomeAcquisitionTaxCalculator";
+import { CalculatorSkeleton } from "@/components/calculator/CalculatorSkeleton";
 import { AdSlot } from "@/components/ads/AdSlot";
 import { Accordion } from "@/components/ui/Accordion";
 import { CalculatorMeta } from "@/components/calculator/CalculatorMeta";
@@ -110,7 +112,9 @@ export default function HomeAcquisitionTaxCalculatorPage() {
       </div>
 
       <div className="mt-8">
-        <HomeAcquisitionTaxCalculator />
+        <Suspense fallback={<CalculatorSkeleton />}>
+          <HomeAcquisitionTaxCalculatorWithPrefill />
+        </Suspense>
       </div>
 
       <div className="mt-8">

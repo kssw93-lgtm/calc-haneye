@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertTriangle } from "lucide-react";
@@ -47,7 +48,27 @@ const DEFAULT_VALUES: HomeAcquisitionTaxFormValues = {
   propertyType: "house",
 };
 
-export function HomeAcquisitionTaxCalculator() {
+export interface HomeAcquisitionTaxInitialValues {
+  priceWon?: string;
+  acquisitionType?: string;
+  homeCount?: string;
+  reductionStatus?: string;
+  jointOwnership?: string;
+  propertyType?: string;
+}
+
+function pickEnum<T extends string>(
+  options: readonly { value: T }[],
+  value: string | undefined,
+  fallback: T
+): T {
+  const match = options.find((option) => option.value === value);
+  return match ? match.value : fallback;
+}
+
+export function HomeAcquisitionTaxCalculator({
+  initialValues,
+}: { initialValues?: HomeAcquisitionTaxInitialValues } = {}) {
   const {
     handleSubmit,
     control,
@@ -57,7 +78,14 @@ export function HomeAcquisitionTaxCalculator() {
     formState: { errors },
   } = useForm<HomeAcquisitionTaxFormValues>({
     resolver: zodResolver(homeAcquisitionTaxFormSchema),
-    defaultValues: DEFAULT_VALUES,
+    defaultValues: {
+      priceWon: initialValues?.priceWon ? Number(initialValues.priceWon) : DEFAULT_VALUES.priceWon,
+      acquisitionType: pickEnum(acquisitionTypeOptions, initialValues?.acquisitionType, DEFAULT_VALUES.acquisitionType),
+      homeCount: pickEnum(homeCountOptions, initialValues?.homeCount, DEFAULT_VALUES.homeCount),
+      reductionStatus: pickEnum(reductionStatusOptions, initialValues?.reductionStatus, DEFAULT_VALUES.reductionStatus),
+      jointOwnership: pickEnum(jointOwnershipOptions, initialValues?.jointOwnership, DEFAULT_VALUES.jointOwnership),
+      propertyType: pickEnum(propertyTypeOptions, initialValues?.propertyType, DEFAULT_VALUES.propertyType),
+    },
   });
 
   const [result, setResult] = useState<HomeAcquisitionTaxResult | null>(null);
@@ -89,6 +117,15 @@ export function HomeAcquisitionTaxCalculator() {
     setCalculatedValues(data);
     setCalculatedSnapshot(getValues());
   }
+
+  const hasAutoCalculated = useRef(false);
+  useEffect(() => {
+    if (hasAutoCalculated.current) return;
+    hasAutoCalculated.current = true;
+    if (initialValues?.priceWon) {
+      void handleSubmit(onSubmit)();
+    }
+  }, [handleSubmit, initialValues, onSubmit]);
 
   function handleReset() {
     reset(DEFAULT_VALUES);
@@ -220,7 +257,7 @@ export function HomeAcquisitionTaxCalculator() {
       }
       resultSlot={
         <CalculatorResultCard>
-          {!result || !calculatedValues || isStale ? (
+          {!result || !calculatedValues ? (
             <EmptyResultState />
           ) : (
             <div className="space-y-5">
@@ -363,5 +400,22 @@ function ResultLine({
         {value}
       </span>
     </div>
+  );
+}
+
+/** URL 쿼리스트링으로 초기값을 채운 주택 취득세 계산기. 호출부는 Suspense로 감싸야 한다. */
+export function HomeAcquisitionTaxCalculatorWithPrefill() {
+  const searchParams = useSearchParams();
+  return (
+    <HomeAcquisitionTaxCalculator
+      initialValues={{
+        priceWon: searchParams.get("priceWon") ?? undefined,
+        acquisitionType: searchParams.get("acquisitionType") ?? undefined,
+        homeCount: searchParams.get("homeCount") ?? undefined,
+        reductionStatus: searchParams.get("reductionStatus") ?? undefined,
+        jointOwnership: searchParams.get("jointOwnership") ?? undefined,
+        propertyType: searchParams.get("propertyType") ?? undefined,
+      }}
+    />
   );
 }

@@ -12,17 +12,23 @@ const labels: Record<string, string> = {
   "home-acquisition-tax": "내 주택 취득세 계산하기",
 };
 
-/** Real navigable links in static HTML; never converts an application link into a calculator. */
+/**
+ * Real navigable links in static HTML; never converts an application link into a calculator.
+ * hrefs may include a query string (e.g. "/calculators/loan-interest?principal=50000000") to
+ * deep-link into a calculator with values pre-filled; matching against calculator metadata
+ * ignores the query string, but the full href (with query) is used for the link itself.
+ */
 export function CalculatorCTA({ hrefs }: { hrefs: string[] }) {
   const related = [...new Set(hrefs)].flatMap(href => {
-    const calculator = calculators.find(item => item.href === href);
-    return calculator ? [calculator] : [];
+    const path = href.split("?")[0];
+    const calculator = calculators.find(item => item.href === path);
+    return calculator ? [{ ...calculator, fullHref: href }] : [];
   }).slice(0, 2);
   if (!related.length) return null;
   return <aside data-calculator-cta className="my-8 rounded-2xl border border-brand/20 bg-brand-light p-5 sm:p-6" aria-label="내 조건으로 직접 계산">
     <p className="text-xs font-semibold tracking-wide text-brand">읽은 내용을 내 조건에 적용해 보세요</p>
     <p className="mt-2 text-lg font-bold text-ink">예시와 내 금액은 얼마나 다를까요?</p>
-    <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">{related.map(item => <Link key={item.slug} data-calculator-cta-link href={item.href} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand px-5 py-3 text-center text-sm font-bold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">{labels[item.slug] ?? item.title}<span aria-hidden="true">→</span></Link>)}</div>
+    <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">{related.map(item => <Link key={item.slug} data-calculator-cta-link href={item.fullHref} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand px-5 py-3 text-center text-sm font-bold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">{labels[item.slug] ?? item.title}<span aria-hidden="true">→</span></Link>)}</div>
     <p className="mt-3 text-xs leading-6 text-ink-soft">계산기에서 금액과 조건을 직접 입력하세요. 참고용 예상 결과이며 정책 신청·대출 승인·확정 세액 판정이 아닙니다.</p>
   </aside>;
 }

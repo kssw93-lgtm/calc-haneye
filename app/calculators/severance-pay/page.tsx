@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Container } from "@/components/layout/Container";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { SeverancePayCalculator } from "@/components/calculators/SeverancePayCalculator";
+import { SeverancePayCalculatorWithPrefill } from "@/components/calculators/SeverancePayCalculator";
+import { CalculatorSkeleton } from "@/components/calculator/CalculatorSkeleton";
 import { AdSlot } from "@/components/ads/AdSlot";
 import { Accordion } from "@/components/ui/Accordion";
 import { absoluteUrl, pageMetadata } from "@/lib/utils/seo";
@@ -101,7 +103,9 @@ export default function SeverancePayCalculatorPage() {
       </p>
 
       <div className="mt-8">
-        <SeverancePayCalculator />
+        <Suspense fallback={<CalculatorSkeleton />}>
+          <SeverancePayCalculatorWithPrefill />
+        </Suspense>
       </div>
 
       <div className="mt-8">

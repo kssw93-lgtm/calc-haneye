@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -42,7 +43,19 @@ const DEFAULT_VALUES: SeverancePayFormValues = {
   includeBonusAndLeaveAllowance: false,
 };
 
-export function SeverancePayCalculator() {
+export interface SeverancePayInitialValues {
+  hireDate?: string;
+  resignationDate?: string;
+  threeMonthWages?: string;
+  threeMonthDays?: string;
+  annualBonus?: string;
+  unusedAnnualLeaveAllowance?: string;
+  includeBonusAndLeaveAllowance?: string;
+}
+
+export function SeverancePayCalculator({
+  initialValues,
+}: { initialValues?: SeverancePayInitialValues } = {}) {
   const {
     register,
     handleSubmit,
@@ -54,7 +67,21 @@ export function SeverancePayCalculator() {
     formState: { errors },
   } = useForm<SeverancePayFormValues>({
     resolver: zodResolver(severancePayFormSchema),
-    defaultValues: DEFAULT_VALUES,
+    defaultValues: {
+      hireDate: initialValues?.hireDate ?? DEFAULT_VALUES.hireDate,
+      resignationDate: initialValues?.resignationDate ?? DEFAULT_VALUES.resignationDate,
+      threeMonthWages: initialValues?.threeMonthWages
+        ? Number(initialValues.threeMonthWages)
+        : DEFAULT_VALUES.threeMonthWages,
+      threeMonthDays: initialValues?.threeMonthDays
+        ? Number(initialValues.threeMonthDays)
+        : DEFAULT_VALUES.threeMonthDays,
+      annualBonus: initialValues?.annualBonus ? Number(initialValues.annualBonus) : DEFAULT_VALUES.annualBonus,
+      unusedAnnualLeaveAllowance: initialValues?.unusedAnnualLeaveAllowance
+        ? Number(initialValues.unusedAnnualLeaveAllowance)
+        : DEFAULT_VALUES.unusedAnnualLeaveAllowance,
+      includeBonusAndLeaveAllowance: initialValues?.includeBonusAndLeaveAllowance === "true",
+    },
   });
 
   const [result, setResult] = useState<SeverancePayResult | null>(null);
@@ -100,6 +127,15 @@ export function SeverancePayCalculator() {
     setCalculatedValues(data);
     setCalculatedSnapshot(getValues());
   }
+
+  const hasAutoCalculated = useRef(false);
+  useEffect(() => {
+    if (hasAutoCalculated.current) return;
+    hasAutoCalculated.current = true;
+    if (initialValues?.hireDate && initialValues?.resignationDate && initialValues?.threeMonthWages) {
+      void handleSubmit(onSubmit)();
+    }
+  }, [handleSubmit, initialValues, onSubmit]);
 
   function handleReset() {
     reset(DEFAULT_VALUES);
@@ -375,5 +411,23 @@ function ResultLine({
         {value}
       </span>
     </div>
+  );
+}
+
+/** URL 쿼리스트링으로 초기값을 채운 퇴직금 계산기. 호출부는 Suspense로 감싸야 한다. */
+export function SeverancePayCalculatorWithPrefill() {
+  const searchParams = useSearchParams();
+  return (
+    <SeverancePayCalculator
+      initialValues={{
+        hireDate: searchParams.get("hireDate") ?? undefined,
+        resignationDate: searchParams.get("resignationDate") ?? undefined,
+        threeMonthWages: searchParams.get("threeMonthWages") ?? undefined,
+        threeMonthDays: searchParams.get("threeMonthDays") ?? undefined,
+        annualBonus: searchParams.get("annualBonus") ?? undefined,
+        unusedAnnualLeaveAllowance: searchParams.get("unusedAnnualLeaveAllowance") ?? undefined,
+        includeBonusAndLeaveAllowance: searchParams.get("includeBonusAndLeaveAllowance") ?? undefined,
+      }}
+    />
   );
 }

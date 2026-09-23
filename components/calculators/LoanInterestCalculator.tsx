@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { calculateLoanInterest, type LoanInterestResult } from "@/lib/calculators/loanInterest";
@@ -44,7 +45,20 @@ const LOAN_DISCLAIMER =
 
 const INITIAL_VISIBLE_MONTHS = 12;
 
-export function LoanInterestCalculator() {
+export interface LoanInterestInitialValues {
+  principal?: string;
+  annualRatePercent?: string;
+  termMonths?: string;
+  repaymentMethod?: string;
+}
+
+function isRepaymentMethod(value: string | undefined): value is LoanInterestFormValues["repaymentMethod"] {
+  return loanRepaymentMethodOptions.some((option) => option.value === value);
+}
+
+export function LoanInterestCalculator({
+  initialValues,
+}: { initialValues?: LoanInterestInitialValues } = {}) {
   const {
     register,
     handleSubmit,
@@ -56,10 +70,12 @@ export function LoanInterestCalculator() {
   } = useForm<LoanInterestFormValues>({
     resolver: zodResolver(loanInterestFormSchema),
     defaultValues: {
-      principal: undefined,
-      annualRatePercent: undefined,
-      termMonths: undefined,
-      repaymentMethod: "equalPayment",
+      principal: initialValues?.principal ? Number(initialValues.principal) : undefined,
+      annualRatePercent: initialValues?.annualRatePercent ? Number(initialValues.annualRatePercent) : undefined,
+      termMonths: initialValues?.termMonths ? Number(initialValues.termMonths) : undefined,
+      repaymentMethod: isRepaymentMethod(initialValues?.repaymentMethod)
+        ? initialValues.repaymentMethod
+        : "equalPayment",
     },
   });
 
@@ -87,6 +103,15 @@ export function LoanInterestCalculator() {
     setCalculatedSnapshot(getValues());
     setShowFullSchedule(false);
   }
+
+  const hasAutoCalculated = useRef(false);
+  useEffect(() => {
+    if (hasAutoCalculated.current) return;
+    hasAutoCalculated.current = true;
+    if (initialValues?.principal && initialValues?.annualRatePercent && initialValues?.termMonths) {
+      void handleSubmit(onSubmit)();
+    }
+  }, [handleSubmit, initialValues, onSubmit]);
 
   function handleReset() {
     reset({
@@ -397,5 +422,20 @@ function ResultLine({
         {value}
       </span>
     </div>
+  );
+}
+
+/** URL 쿼리스트링(예: ?principal=50000000)으로 초기값을 채운 대출 이자 계산기. 정적 내보내기 환경에서는 useSearchParams를 클라이언트에서 읽어야 하므로 호출부는 Suspense로 감싸야 한다. */
+export function LoanInterestCalculatorWithPrefill() {
+  const searchParams = useSearchParams();
+  return (
+    <LoanInterestCalculator
+      initialValues={{
+        principal: searchParams.get("principal") ?? undefined,
+        annualRatePercent: searchParams.get("annualRatePercent") ?? undefined,
+        termMonths: searchParams.get("termMonths") ?? undefined,
+        repaymentMethod: searchParams.get("repaymentMethod") ?? undefined,
+      }}
+    />
   );
 }

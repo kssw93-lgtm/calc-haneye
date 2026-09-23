@@ -1,36 +1,46 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useCallback, useRef, useState, type FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
 import { calculateSocialInsurance } from "@/lib/calculators/socialInsurance";
 import { formatWon } from "@/lib/utils/currency";
+import { useAutoCalculateOnMount } from "@/components/calculator/useAutoCalculateOnMount";
 
-export function SocialInsuranceCalculator() {
+export interface SocialInsuranceInitialValues {
+  wage?: string;
+  period?: string;
+}
+
+export function SocialInsuranceCalculator({ initialValues }: { initialValues?: SocialInsuranceInitialValues } = {}) {
+  const formRef = useRef<HTMLFormElement>(null);
   const [result, setResult] = useState<ReturnType<typeof calculateSocialInsurance> | null>(null);
   const [error, setError] = useState("");
 
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError("");
-    const data = new FormData(event.currentTarget);
+  const compute = useCallback((data: FormData) => {
     try {
       setResult(calculateSocialInsurance({
         monthlyInsurableWage: Number(data.get("wage")),
         pensionPeriod: String(data.get("period")) as "first-half" | "second-half",
       }));
+      setError("");
     } catch (cause) {
       setResult(null);
       setError(cause instanceof Error ? cause.message : "입력값을 확인해 주세요.");
     }
-  }
+  }, []);
+
+  function submit(event: FormEvent<HTMLFormElement>) { event.preventDefault(); compute(new FormData(event.currentTarget)); }
+
+  useAutoCalculateOnMount(formRef, Boolean(initialValues?.wage), compute);
 
   return <div className="mt-8 grid gap-6 lg:grid-cols-2">
-    <form onSubmit={submit} className="space-y-5 rounded-card border border-hairline bg-white p-6">
+    <form ref={formRef} onSubmit={submit} onChange={() => { setResult(null); setError(""); }} className="space-y-5 rounded-card border border-hairline bg-white p-6">
       <label className="block text-sm font-bold">월 보험료 산정 보수액
-        <input required name="wage" type="number" min="1" step="1000" defaultValue="3000000" className="mt-2 min-h-12 w-full rounded-lg border border-hairline px-3" />
+        <input required name="wage" type="number" min="1" step="1000" defaultValue={initialValues?.wage ?? "3000000"} className="mt-2 min-h-12 w-full rounded-lg border border-hairline px-3" />
         <span className="mt-1 block text-xs font-normal leading-5 text-ink-muted">비과세 식대 등 보험료 산정에서 제외되는 금액은 빼고 입력하세요.</span>
       </label>
       <label className="block text-sm font-bold">국민연금 적용 기간
-        <select name="period" defaultValue="second-half" className="mt-2 min-h-12 w-full rounded-lg border border-hairline px-3">
+        <select name="period" defaultValue={initialValues?.period ?? "second-half"} className="mt-2 min-h-12 w-full rounded-lg border border-hairline px-3">
           <option value="first-half">2026년 1월~6월</option>
           <option value="second-half">2026년 7월~12월</option>
         </select>
@@ -56,4 +66,17 @@ export function SocialInsuranceCalculator() {
       <p className="mt-5 text-xs leading-6 text-ink-muted">실제 고지액은 공단이 결정한 보수월액·기준소득월액, 원 단위 처리, 지원금, 정산 및 가입 제외 여부에 따라 달라질 수 있습니다. 소득세와 지방소득세는 포함하지 않습니다.</p>
     </section>
   </div>;
+}
+
+/** URL 쿼리스트링으로 초기값을 채운 4대보험 계산기. 호출부는 Suspense로 감싸야 한다. */
+export function SocialInsuranceCalculatorWithPrefill() {
+  const searchParams = useSearchParams();
+  return (
+    <SocialInsuranceCalculator
+      initialValues={{
+        wage: searchParams.get("wage") ?? undefined,
+        period: searchParams.get("period") ?? undefined,
+      }}
+    />
+  );
 }
