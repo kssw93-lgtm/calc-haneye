@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
@@ -25,8 +26,9 @@ export function Header() {
       <Container className="flex h-16 items-center justify-between">
         <Link
           href="/"
-          className="rounded-md text-lg font-bold text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+          className="flex items-center gap-2 rounded-md text-lg font-bold text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
         >
+          <Image src="/logo-mark.png" alt="" width={32} height={32} className="h-8 w-8" unoptimized priority />
           {siteName}
         </Link>
 

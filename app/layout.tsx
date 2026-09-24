@@ -34,7 +34,8 @@ export const metadata: Metadata = {
     images: ["/social-preview.png"],
   },
   icons: {
-    icon: "/favicon.svg",
+    icon: [{ url: "/logo-mark.png", sizes: "512x512", type: "image/png" }],
+    apple: [{ url: "/logo-mark.png", sizes: "512x512", type: "image/png" }],
   },
   alternates: {
     types: {
