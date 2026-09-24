@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, MoonStar } from "lucide-react";
 import { Container } from "./Container";
@@ -46,7 +47,10 @@ export function Footer() {
         </aside>
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <p className="text-base font-bold text-ink">{siteName}</p>
+            <p className="flex items-center gap-2 text-base font-bold text-ink">
+              <Image src="/logo-mark.png" alt="" width={24} height={24} className="h-6 w-6" unoptimized />
+              {siteName}
+            </p>
             <p className="mt-1 text-sm text-ink-soft">
               금융·세금 계산은 참고용 예상 결과입니다.
             </p>

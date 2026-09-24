@@ -486,7 +486,10 @@ const calculatorKeywordRules: { href: string; pattern: RegExp }[] = [
 
 export function getRelatedCalculatorHrefs(article: NewsArticle): string[] {
   if (article.calculatorHrefOverrides) return article.calculatorHrefOverrides;
-  const text = `${article.title} ${article.summary} ${article.body.join(" ")}`;
+  // 제목·요약(기사의 실제 주제)만 검사한다. 본문 전체를 검사하면 배경 설명 중 스치듯
+  // 언급된 단어(예: 스미싱 기사의 "나도 모르는 대출 개설을 막는다")에도 반응해
+  // 주제와 무관한 계산기가 추천되는 오탐이 생긴다.
+  const text = `${article.title} ${article.summary}`;
   const matched = calculatorKeywordRules.filter(rule => rule.pattern.test(text)).map(rule => rule.href);
   return [...new Set(matched)].slice(0, 2);
 }

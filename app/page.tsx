@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   Calculator,
@@ -17,6 +18,7 @@ import { CalculatorCard } from "@/components/CalculatorCard";
 import {
   getCalculatorsByCategory,
 } from "@/lib/constants/calculatorMetadata";
+import { getDisplayDate, getSortedNewsArticles } from "@/lib/news";
 import { pageMetadata } from "@/lib/utils/seo";
 
 export const metadata = pageMetadata({
@@ -30,6 +32,7 @@ const financeCalculators = getCalculatorsByCategory("finance");
 const salaryWorkCalculators = getCalculatorsByCategory("salary-work");
 const propertyTaxCalculators = getCalculatorsByCategory("property-tax");
 const popularCalculators = [...financeCalculators, ...salaryWorkCalculators, ...propertyTaxCalculators].slice(0, 6);
+const latestNews = getSortedNewsArticles().slice(0, 3);
 
 const trustItems = [
   {
@@ -148,6 +151,49 @@ export default function HomePage() {
               icon={Receipt}
               items={propertyTaxCalculators}
             />
+          </div>
+        </Container>
+      </section>
+
+      <section className="border-b border-hairline bg-surface-subtle py-14 sm:py-20">
+        <Container>
+          <div className="flex items-center justify-between gap-4">
+            <h2 className="text-2xl font-bold text-ink">최신 금융·정책 뉴스</h2>
+            <Link href="/news" className="shrink-0 text-sm font-semibold text-brand hover:underline">
+              전체보기 →
+            </Link>
+          </div>
+          <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+            공식 발표와 공개 자료를 바탕으로 정리한 최신 금융 이슈를 확인하세요.
+          </p>
+          <div className="mt-6 grid gap-5 sm:grid-cols-3">
+            {latestNews.map((article) => (
+              <Link
+                key={article.slug}
+                href={`/news/${article.slug}`}
+                className="block overflow-hidden rounded-card border border-hairline bg-white shadow-card transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+              >
+                {article.image && (
+                  <Image
+                    src={article.image}
+                    alt={article.imageAlt ?? article.title}
+                    width={1200}
+                    height={640}
+                    unoptimized
+                    className="h-32 w-full object-cover"
+                  />
+                )}
+                <div className="p-5">
+                  <div className="flex items-center gap-2 text-xs text-ink-muted">
+                    <span className="rounded-full bg-surface-subtle px-2.5 py-0.5 font-semibold text-brand">
+                      {article.category}
+                    </span>
+                    <time dateTime={getDisplayDate(article)}>{getDisplayDate(article)}</time>
+                  </div>
+                  <h3 className="mt-3 line-clamp-2 text-base font-bold text-ink">{article.title}</h3>
+                </div>
+              </Link>
+            ))}
           </div>
         </Container>
       </section>
