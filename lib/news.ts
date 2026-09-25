@@ -495,6 +495,11 @@ export function getDisplayDate(article: NewsArticle) { return article.publishedA
 
 export function getSortedNewsArticles() { return [...newsArticles].sort((a, b) => getDisplayDate(b).localeCompare(getDisplayDate(a))); }
 
+/** 카카오톡·트위터 등 공유 미리보기와 구조화 데이터(NewsArticle)는 SVG를 지원하지 않는 경우가 많아, 같은 이름의 PNG(자동 변환본)를 대신 사용한다. 화면에 보여주는 본문 이미지는 계속 SVG(고화질·저용량)를 쓴다. */
+export function getArticleOgImage(article: NewsArticle): string | undefined {
+  return article.image?.replace(/\.svg$/, ".png");
+}
+
 const calculatorKeywordRules: { href: string; pattern: RegExp }[] = [
   { href: "/calculators/loan-interest", pattern: /대출|담보대출|마이너스통장|여신|이자율/ },
   { href: "/calculators/severance-pay", pattern: /퇴직금|퇴직급여/ },
