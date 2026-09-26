@@ -18,9 +18,9 @@ it("excludes incomplete detail from indexing and provides navigation", async () 
   expect(html).toContain("신청 전 확인 순서");
   expect(html).toContain('href="/contact"');
 });
-it("retains complete detail and escapes source markup", async () => {
+it("retains complete detail, escapes source markup, and still excludes it from indexing", async () => {
   vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("<resultCode>0</resultCode><servNm>&lt;script&gt;bad&lt;/script&gt;</servNm><tgtrDtlCn>대상</tgtrDtlCn><slctCritCn>조건</slctCritCn><alwServCn>내용</alwServCn>")));
   const response = await onRequestGet(context);
-  expect(response.headers.get("X-Robots-Tag")).toBe("index,follow");
+  expect(response.headers.get("X-Robots-Tag")).toBe("noindex,follow");
   expect(await response.text()).not.toContain("<script>bad</script>");
 });
