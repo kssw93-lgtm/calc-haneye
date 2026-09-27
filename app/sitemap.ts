@@ -46,6 +46,7 @@ const staticPaths = [
   "/policies/didimdol-home-loan",
   "/policies/bogeumjari-loan",
   "/policies/newborn-special-loan",
+  "/policies/youth-future-savings",
   "/policies/earned-income-tax-credit",
   "/policies/national-learning-card",
   "/policies/child-tax-credit",
