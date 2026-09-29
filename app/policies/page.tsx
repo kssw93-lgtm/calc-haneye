@@ -13,6 +13,7 @@ const entries = [
   ["didimdol-home-loan", policyData.didimdol], ["bogeumjari-loan", policyData.bogeumjari],
   ["newborn-special-loan", policyData.newbornSpecialLoan],
   ["youth-future-savings", policyData.youthFutureSavings],
+  ["child-support-advance", policyData.childSupportAdvance],
   ["earned-income-tax-credit", policyData.earnedIncomeCredit], ["national-learning-card", policyData.learningCard],
   ["child-tax-credit", policyData.childTaxCredit], ["job-seeker-allowance", policyData.jobSeekerAllowance],
 ] as const;
