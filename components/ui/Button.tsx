@@ -6,14 +6,15 @@ export type ButtonVariant = "primary" | "secondary" | "ghost";
 export type ButtonSize = "md" | "lg";
 
 const baseClasses =
-  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold " +
-  "transition-colors focus-visible:outline-none focus-visible:ring-2 " +
+  "motion-safe-only inline-flex items-center justify-center gap-2 rounded-xl font-semibold " +
+  "transition-[background-color,box-shadow,transform] duration-150 " +
+  "focus-visible:outline-none focus-visible:ring-2 " +
   "focus-visible:ring-brand focus-visible:ring-offset-2 " +
-  "disabled:cursor-not-allowed disabled:opacity-50";
+  "active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100";
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-brand text-white hover:bg-brand-dark active:bg-brand-dark disabled:hover:bg-brand",
+    "bg-brand text-white shadow-[0_1px_2px_rgba(27,77,255,0.15),0_6px_16px_rgba(27,77,255,0.22)] hover:bg-brand-dark active:bg-brand-dark disabled:hover:bg-brand disabled:shadow-none",
   secondary:
     "bg-white text-ink border border-hairline hover:bg-surface-subtle active:bg-surface-subtle",
   ghost: "bg-transparent text-brand hover:bg-brand-light active:bg-brand-light",

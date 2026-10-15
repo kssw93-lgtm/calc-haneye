@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { cn } from "@/components/ui/cn";
 import { Container } from "./Container";
 import { siteName } from "@/lib/constants/site";
 
@@ -20,6 +22,9 @@ const navItems = [
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname?.startsWith(href) ?? false;
 
   return (
     <header className="sticky top-0 z-40 border-b border-hairline bg-white/95 backdrop-blur">
@@ -37,7 +42,11 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft hover:bg-surface-subtle hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+              aria-current={isActive(item.href) ? "page" : undefined}
+              className={cn(
+                "rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-150 hover:bg-surface-subtle hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+                isActive(item.href) ? "text-brand" : "text-ink-soft"
+              )}
             >
               {item.label}
             </Link>
@@ -71,7 +80,11 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className="rounded-lg px-3 py-3 text-[15px] font-medium text-ink-soft hover:bg-surface-subtle hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={cn(
+                  "rounded-lg px-3 py-3 text-[15px] font-medium transition-colors duration-150 hover:bg-surface-subtle hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+                  isActive(item.href) ? "text-brand" : "text-ink-soft"
+                )}
               >
                 {item.label}
               </Link>

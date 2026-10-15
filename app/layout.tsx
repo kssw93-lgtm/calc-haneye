@@ -62,6 +62,7 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         <link rel="alternate" type="application/rss+xml" title={`${siteName} RSS`} href="/rss.xml" />
+        <link rel="stylesheet" href="/fonts/pretendard/pretendard-dynamic-subset.css" />
         <meta name="google-adsense-account" content="ca-pub-8704899603701516" />
         {/* 심사 준비: 계정 확인 메타태그·ads.txt는 유지하고 광고 송출은 비활성화. */}
       </head>

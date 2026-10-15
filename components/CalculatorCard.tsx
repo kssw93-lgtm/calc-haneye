@@ -27,8 +27,8 @@ export function CalculatorCard({ calculator, showScope }: CalculatorCardProps) {
   const Icon = ICONS[calculator.icon];
 
   return (
-    <Card className="flex h-full flex-col transition-shadow hover:shadow-md">
-      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-light text-brand">
+    <Card className="motion-safe-only flex h-full flex-col transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-md">
+      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-light text-brand ring-1 ring-inset ring-brand/15">
         <Icon aria-hidden="true" className="h-5 w-5" />
       </div>
       <h3 className="mt-4 text-base font-bold text-ink">{calculator.title}</h3>

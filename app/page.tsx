@@ -171,7 +171,7 @@ export default function HomePage() {
               <Link
                 key={article.slug}
                 href={`/news/${article.slug}`}
-                className="block overflow-hidden rounded-card border border-hairline bg-white shadow-card transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                className="motion-safe-only block overflow-hidden rounded-card border border-hairline bg-white shadow-card transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
               >
                 {article.image && (
                   <Image
@@ -226,7 +226,7 @@ export default function HomePage() {
               <Link
                 key={guide.href}
                 href={guide.href}
-                className="block rounded-card border border-hairline bg-white p-5 shadow-card transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                className="motion-safe-only block rounded-card border border-hairline bg-white p-5 shadow-card transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
               >
                 <h3 className="text-base font-bold text-ink">{guide.title}</h3>
                 <span className="mt-3 inline-block text-sm font-semibold text-brand">
@@ -294,7 +294,7 @@ function CategoryBlock({
           <li key={item.slug}>
             <Link
               href={item.href}
-              className="flex items-center justify-between rounded-lg border border-hairline bg-white px-4 py-3 text-sm font-medium text-ink hover:border-brand hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+              className="flex items-center justify-between rounded-lg border border-hairline bg-white px-4 py-3 text-sm font-medium text-ink transition-colors duration-150 hover:border-brand hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
             >
               {item.title}
               <span aria-hidden="true">→</span>

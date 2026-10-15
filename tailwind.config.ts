@@ -44,10 +44,11 @@ const config: Config = {
         card: "16px",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(23, 27, 43, 0.04), 0 4px 12px rgba(23, 27, 43, 0.06)",
+        card: "0 1px 2px rgba(23, 27, 43, 0.05), 0 2px 6px rgba(23, 27, 43, 0.05), 0 10px 24px -8px rgba(27, 77, 255, 0.12)",
       },
       fontFamily: {
         sans: [
+          "Pretendard Variable",
           "Pretendard",
           "system-ui",
           "-apple-system",

@@ -11,9 +11,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       <input
         ref={ref}
         className={cn(
-          "h-11 w-full rounded-lg border bg-white px-3.5 text-[15px] text-ink",
+          "h-11 w-full rounded-lg border bg-white px-3.5 text-[15px] text-ink tabular-nums",
           "placeholder:text-ink-muted",
-          "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-1",
+          "transition-colors duration-150",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-1 focus-visible:border-brand",
           invalid ? "border-danger" : "border-hairline",
           "disabled:cursor-not-allowed disabled:bg-surface-subtle disabled:text-ink-muted",
           className
