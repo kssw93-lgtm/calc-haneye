@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CalculatorCTA } from "@/components/guides/CalculatorCTA";
+import { Accordion } from "@/components/ui/Accordion";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Container } from "@/components/layout/Container";
 import { PolicyCategoryIcon } from "@/components/policies/PolicyCategoryIcon";
@@ -16,10 +17,24 @@ export interface PolicyData {
   sourceName: string;
   sourceUrl: string;
   related?: { label: string; href: string }[];
+  faq?: { question: string; answer: string }[];
 }
 
 export function PolicyArticle({ data }: { data: PolicyData }) {
+  const faqJsonLd = data.faq && data.faq.length > 0
+    ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: data.faq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: { "@type": "Answer", text: item.answer },
+      })),
+    }
+    : null;
+
   return <Container className="max-w-3xl py-10 sm:py-14">
+    {faqJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />}
     <Breadcrumbs items={[{ label: "홈", href: "/" }, { label: "지원정책", href: "/policies" }, { label: data.title }]} />
     <article>
       <div className="mt-5 flex items-start gap-4"><PolicyCategoryIcon category={data.category} large /><div><div className="flex flex-wrap items-center gap-2"><span className="rounded-full bg-brand-light px-3 py-1 text-xs font-semibold text-brand">{data.category}</span><span className="rounded-full bg-surface-muted px-3 py-1 text-xs font-semibold text-ink-soft">{data.status}</span></div><h1 className="mt-3 text-2xl font-bold text-ink sm:text-3xl">{data.title}</h1></div></div><p className="mt-4 text-base leading-8 text-ink-soft">{data.summary}</p><p className="mt-2 text-xs text-ink-muted">공식정보 확인일 {data.checkedAt}</p>
@@ -27,6 +42,7 @@ export function PolicyArticle({ data }: { data: PolicyData }) {
       <section className="mt-10"><h2 className="text-xl font-bold text-ink">지원 내용</h2><ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-ink-soft">{data.benefits.map(x => <li key={x}>{x}</li>)}</ul></section>
       <CalculatorCTA hrefs={(data.related ?? []).map(link => link.href)} />
       <section className="mt-10"><h2 className="text-xl font-bold text-ink">신청 전 확인사항</h2><ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-ink-soft">{data.checks.map(x => <li key={x}>{x}</li>)}</ul></section>
+      {data.faq && data.faq.length > 0 && <section className="mt-10"><h2 className="text-xl font-bold text-ink">자주 묻는 질문</h2><div className="mt-3"><Accordion items={data.faq} /></div></section>}
       <section className="mt-10 rounded-card border border-brand/20 bg-brand-light p-6"><h2 className="text-lg font-bold text-ink">공식 신청정보 확인</h2><p className="mt-2 text-sm leading-7 text-ink-soft">정책 조건은 접수일과 지역, 예산에 따라 바뀔 수 있습니다. 신청 직전에 공식 페이지의 최신 공고를 확인하세요.</p><a href={data.sourceUrl} target="_blank" rel="noreferrer" className="mt-3 inline-block font-semibold text-brand hover:underline">{data.sourceName} 바로가기 ↗</a></section>
       {data.related && data.related.length > 0 && <section className="mt-10"><h2 className="text-lg font-bold text-ink">함께 확인할 계산기</h2><div className="mt-3 flex flex-wrap gap-x-5 gap-y-3">{data.related.map(x => <Link key={x.href} href={x.href} className="font-semibold text-brand hover:underline">{x.label} →</Link>)}</div></section>}
     </article>
