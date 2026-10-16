@@ -16,6 +16,7 @@ const entries = [
   ["child-support-advance", policyData.childSupportAdvance],
   ["earned-income-tax-credit", policyData.earnedIncomeCredit], ["national-learning-card", policyData.learningCard],
   ["child-tax-credit", policyData.childTaxCredit], ["job-seeker-allowance", policyData.jobSeekerAllowance],
+  ["parental-leave-pay", policyData.parentalLeavePay],
 ] as const;
 const categories = ["주거·부동산", "대출·금융", "근로·소득", "청년·가족"];
 

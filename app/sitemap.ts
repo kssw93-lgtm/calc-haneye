@@ -52,6 +52,7 @@ const staticPaths = [
   "/policies/national-learning-card",
   "/policies/child-tax-credit",
   "/policies/job-seeker-allowance",
+  "/policies/parental-leave-pay",
   "/guides/savings-interest-guide",
   "/guides/real-estate-brokerage-fee-guide",
   "/guides/monthly-rent-conversion-guide",
